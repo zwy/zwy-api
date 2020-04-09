@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: 日志系统-中台-API
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://xx.mr-gut.cn/api'
+    description: 测试域名
+  -
+    url: 'http://www.mr-gut.cn/api'
+    description: 正式域名
+paths:
+  /api/pmp/axUploadImage:
+    post:
+      tags:
+        - 基础
+      summary: 1.1上传单张图片
+      operationId: axUploadImage
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                image:
+                  description: 图片
+                  type: string
+                  format: binary
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, format: int32 }
+                  image: { description: 图片路径, type: string }
+                  imageOss: { description: 图片全路径, type: string }
+                type: object
+                example:
+                  rt: 1
+                  image: /articles/200326/261fda515213ad83b641f902edd94dfe.jpg
+                  imageOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/articles/200326/261fda515213ad83b641f902edd94dfe.jpg'
+  /api/pmp/axUploadFile:
+    post:
+      tags:
+        - 基础
+      summary: '1.2 上传单个附件'
+      operationId: axUploadFile
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  description: 附件
+                  type: string
+                  format: binary
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, format: int32 }
+                  file: { description: 附件路径, type: string }
+                  fileOss: { description: 附件全路径, type: string }
+                type: object
+                example:
+                  rt: 1
+                  file: /articles/200326/261fda515213ad83b641f902edd94dfe.pdf
+                  fileOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/articles/200326/261fda515213ad83b641f902edd94dfe.pdf'
+  /api/pmp/axGetUserinfo:
+    post:
+      tags:
+        - 基础
+      summary: '1.3 获取登录用户信息'
+      operationId: axGetUserinfo
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, format: int32 }
+                  userinfo: { description: 用户信息, properties: { nickname: { description: 昵称, type: string }, name: { description: 姓名, type: string }, avatar: { description: 头像, type: string } }, type: object }
+                type: object
+                example:
+                  rt: '1'
+                  userinfo: { nickname: 昵称, name: 姓名, 头像: 'http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM616nNZsFCicB1ibWNrT11X6oZNtnBiboAo1rd6wQOFQIuOkvoOjPRlKBFKSPWhT632nNXjOBAehPdJQ/132' }
