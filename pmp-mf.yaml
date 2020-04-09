@@ -5,10 +5,10 @@ info:
   version: 1.0.0
 servers:
   -
-    url: 'http://xx.mr-gut.cn/api'
+    url: 'http://xx.mr-gut.cn'
     description: 测试域名
   -
-    url: 'http://www.mr-gut.cn/api'
+    url: 'http://www.mr-gut.cn'
     description: 正式域名
 paths:
   /api/pmp/axUploadImage:
@@ -34,7 +34,7 @@ paths:
             application/json:
               schema:
                 properties:
-                  rt: { description: 返回值, type: integer, format: int32 }
+                  rt: { description: 返回值, type: integer }
                   image: { description: 图片路径, type: string }
                   imageOss: { description: 图片全路径, type: string }
                 type: object
@@ -65,7 +65,7 @@ paths:
             application/json:
               schema:
                 properties:
-                  rt: { description: 返回值, type: integer, format: int32 }
+                  rt: { description: 返回值, type: integer }
                   file: { description: 附件路径, type: string }
                   fileOss: { description: 附件全路径, type: string }
                 type: object
@@ -86,9 +86,180 @@ paths:
             application/json:
               schema:
                 properties:
-                  rt: { description: 返回值, type: integer, format: int32 }
+                  rt: { description: 返回值, type: integer }
                   userinfo: { description: 用户信息, properties: { nickname: { description: 昵称, type: string }, name: { description: 姓名, type: string }, avatar: { description: 头像, type: string } }, type: object }
                 type: object
                 example:
                   rt: '1'
-                  userinfo: { nickname: 昵称, name: 姓名, 头像: 'http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM616nNZsFCicB1ibWNrT11X6oZNtnBiboAo1rd6wQOFQIuOkvoOjPRlKBFKSPWhT632nNXjOBAehPdJQ/132' }
+                  userinfo: { nickname: 昵称, name: 姓名, avatar: 'http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM616nNZsFCicB1ibWNrT11X6oZNtnBiboAo1rd6wQOFQIuOkvoOjPRlKBFKSPWhT632nNXjOBAehPdJQ/132' }
+  /api/pmp/axSearchUsers:
+    post:
+      tags:
+        - 基础
+      summary: '1.4 搜索用户'
+      operationId: axSearchUsers
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                name:
+                  description: 名称
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: 用户ID, type: integer }, name: { description: 姓名, type: string }, nickname: { description: 姓名, type: string }, avatar: { description: 头像, type: string } }, type: object, example: { id: 1, name: zwy, nickname: 赵纬宇, avatar: 'http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM616nNZsFCicB1ibWNrT11X6oZNtnBiboAo1rd6wQOFQIuOkvoOjPRlKBFKSPWhT632nNXjOBAehPdJQ/132' } } }
+                type: object
+  /api/pmp/axSearchMember:
+    post:
+      tags:
+        - 基础
+      summary: '1.5 输入框搜索项目成员'
+      operationId: axSearchMember
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                term:
+                  description: 搜索内容
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OptionItem'
+  /api/pmp/axGetDailies:
+    post:
+      tags:
+        - 日志管理
+      summary: '2.1 获取日志列表'
+      operationId: axGetDailies
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                title:
+                  description: 日志简介
+                  type: string
+                time:
+                  description: 发布时间
+                  type: string
+                audit_status:
+                  description: 状态
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  auditStatusOptions: { $ref: '#/components/schemas/SearchSelectOptions' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, uuid: { description: uuid, type: string }, title: { description: 简介, type: string }, time: { description: 时间, type: string }, audit_status: { description: 审核状态：0->编辑中；1->已审核, type: integer }, auditStatusStr: { description: 审核状态-字符串, type: string }, created: { description: 创建时间, type: string }, detaultUrl: { description: 前台页面链接, type: string } }, type: object, example: { id: 1, uuid: '123', title: 日日日日日日日, time: '2020-03-19', audit_status: 0, created: '2020-03-20 00:00:00', detaultUrl: /daily/s/123, auditStatusStr: 编辑中 } } }
+                type: object
+  /api/pmp/axGetDailyDetail:
+    post:
+      tags:
+        - 日志管理
+      summary: '2.2 获取一个日志详情'
+      operationId: axGetDailyDetail
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                daily_id:
+                  description: 日志ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  daily: { description: 日志详情, properties: { id: { description: ID, type: integer }, title: { description: 简介, type: string }, time: { description: 时间, type: string }, audit_status: { description: 审核状态：0->编辑中；1->已审核, type: integer }, auditStatusStr: { description: 审核状态-字符串, type: string }, detaultUrl: { description: 前台页面链接, type: string } }, type: object, example: { id: 1, title: 点点滴滴, time: '2020-03-19', audit_status: 0, detaultUrl: /daily/s/123, auditStatusStr: 编辑中 } }
+                  contents: { description: 日志内容数组, type: array, items: { properties: { id: { description: 日志内容ID, type: integer }, title: { description: 模块标题, type: string }, work_summary: { description: 工作纪要, type: array, items: { type: string } }, measures: { description: 推进措施, type: array, items: { type: string } }, other: { description: 其他说明, type: array, items: { type: string } } }, type: object } }
+                  receives: { description: 接收人数组, type: array, items: { properties: { id: { description: 接收人ID, type: integer }, name: { description: 接收人姓名, type: string } }, type: object, example: { id: 1, name: 赵纬宇 } } }
+                  files: { description: 日志附件数组, type: array, items: { properties: { id: { description: 附件ID, type: integer }, file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-展示用, type: string } }, type: object, example: { id: 1, file: '/pmp/200403/4月3日-上药信谊&热心肠研究院工作日志.pdf', fileOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/pmp/200403/4%E6%9C%883%E6%97%A5-%E4%B8%8A%E8%8D%AF%E4%BF%A1%E8%B0%8A&%E7%83%AD%E5%BF%83%E8%82%A0%E7%A0%94%E7%A9%B6%E9%99%A2%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97.pdf' } } }
+                type: object
+components:
+  schemas:
+    OptionItem:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptionItem'
+        -
+          properties:
+            value:
+              description: 值
+              type: string
+            label:
+              description: Label
+              type: string
+          type: object
+    SearchSelectOptions:
+      description: 列表搜索select筛选项
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchSelectOptions'
+        -
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionItem'
+    SearchParams:
+      description: 列表搜索参数
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchParams'
+        -
+          properties:
+            more:
+              description: 更多参见搜索项
+              type: string
+          type: object
+          example:
+            more: 更多参见搜索项
+    PageParams:
+      description: 分页数据
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/PageParams'
+        -
+          properties:
+            page:
+              description: 页码
+              type: integer
+            limit:
+              description: 页码
+              type: integer
+            count:
+              description: 总数
+              type: integer
+          type: object
+          example:
+            page: 1
+            limit: 20
+            count: '100'
