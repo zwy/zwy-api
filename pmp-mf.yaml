@@ -22,10 +22,12 @@ paths:
         content:
           multipart/form-data:
             schema:
+              required:
+                - image
               properties:
                 image:
                   description: 图片
-                  type: string
+                  type: file
                   format: binary
               type: object
       responses:
@@ -53,10 +55,12 @@ paths:
         content:
           multipart/form-data:
             schema:
+              required:
+                - file
               properties:
                 file:
                   description: 附件
-                  type: string
+                  type: file
                   format: binary
               type: object
       responses:
@@ -103,6 +107,8 @@ paths:
         content:
           multipart/form-data:
             schema:
+              required:
+                - name
               properties:
                 name:
                   description: 名称
@@ -128,6 +134,8 @@ paths:
         content:
           multipart/form-data:
             schema:
+              required:
+                - term
               properties:
                 term:
                   description: 搜索内容
@@ -170,7 +178,7 @@ paths:
               schema:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
-                  auditStatusOptions: { $ref: '#/components/schemas/SearchSelectOptions' }
+                  auditStatusOptions: { description: 状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, uuid: { description: uuid, type: string }, title: { description: 简介, type: string }, time: { description: 时间, type: string }, audit_status: { description: 审核状态：0->编辑中；1->已审核, type: integer }, auditStatusStr: { description: 审核状态-字符串, type: string }, created: { description: 创建时间, type: string }, detaultUrl: { description: 前台页面链接, type: string } }, type: object, example: { id: 1, uuid: '123', title: 日日日日日日日, time: '2020-03-19', audit_status: 0, created: '2020-03-20 00:00:00', detaultUrl: /daily/s/123, auditStatusStr: 编辑中 } } }
@@ -215,15 +223,18 @@ paths:
               properties:
                 daily:
                   description: 日志详情
+                  required: true
                   properties: { id: { description: ID，新增为0, required: true, type: integer }, title: { description: 简介, required: true, type: string }, time: { description: 时间, required: true, type: string } }
                   type: object
                   example: { id: 1, title: 点点滴滴, time: '2020-03-19' }
                 contents:
                   description: 日志内容数组
+                  required: true
                   type: array
                   items: { properties: { id: { description: 日志内容ID，新增为0, required: true, type: integer }, title: { description: 模块标题, required: true, type: string }, work_summary: { description: 工作纪要, type: array, items: { type: string } }, measures: { description: 推进措施, type: array, items: { type: string } }, other: { description: 其他说明, type: array, items: { type: string } } }, type: object }
                 files:
                   description: 日志附件数组
+                  required: true
                   type: array
                   items: { properties: { file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-展示用, type: string } }, type: object, example: { file: '/pmp/200403/4月3日-上药信谊&热心肠研究院工作日志.pdf', fileOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/pmp/200403/4%E6%9C%883%E6%97%A5-%E4%B8%8A%E8%8D%AF%E4%BF%A1%E8%B0%8A&%E7%83%AD%E5%BF%83%E8%82%A0%E7%A0%94%E7%A9%B6%E9%99%A2%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97.pdf' } }
               type: object
@@ -287,6 +298,7 @@ paths:
         - 日志管理
       summary: '2.6 给某一篇日志的接收人发通知'
       operationId: axSendAlertToDailyReceives
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -301,6 +313,253 @@ paths:
                   type: array
                   items: { type: integer }
               type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/pmp/axGetMembers:
+    post:
+      tags:
+        - 人员管理
+      summary: '3.1 获取人员列表'
+      operationId: axGetMembers
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                name:
+                  description: 姓名（昵称）
+                  type: string
+                phone:
+                  description: 手机号
+                  type: string
+                email:
+                  description: 邮箱
+                  type: string
+                org_name:
+                  description: 相关企业机构
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, name: { description: 简介, type: string }, phone: { description: 时间, type: string }, email: { description: 审核状态：0->编辑中；1->已审核, type: integer }, org_name: { description: 审核状态-字符串, type: string } }, type: object, example: { id: 1, user_id: 1, name: 刘晓婷, phone: '17310568207', org_name: 上药信谊, email: 610330674@qq.com } } }
+                type: object
+  /api/pmp/axEditMember:
+    post:
+      tags:
+        - 人员管理
+      summary: '3.2 新增/修改人员'
+      operationId: axEditMember
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - id
+              properties:
+                id:
+                  description: ID，新增为0
+                  type: integer
+                user_id:
+                  description: 用户ID
+                  type: integer
+                name:
+                  description: 姓名
+                  type: string
+                phone:
+                  description: 手机号
+                  type: string
+                email:
+                  description: 邮箱
+                  type: string
+                org_name:
+                  description: 机构名称
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  id: { description: 数据ID, type: integer, example: '1' }
+                type: object
+  /api/pmp/axDeleteMember:
+    get:
+      tags:
+        - 人员管理
+      summary: '3.3 删除人员'
+      operationId: axDeleteMember
+      parameters:
+        -
+          name: member_id
+          in: query
+          description: 人员ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/pmp/axGetFiles:
+    post:
+      tags:
+        - 文件管理
+      summary: '4.1 获取文件管理列表 TODO'
+      operationId: axGetFiles
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  description: 文件名
+                  type: string
+                daily_title:
+                  description: 关联日志简介
+                  type: string
+                time:
+                  description: 发布日期
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  allTypes: { description: 文件类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, daily_title: { description: 关联日志简介, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-全路径, type: string }, time: { description: 发布日期, type: string }, type: { description: 文件类型, type: string }, format: { description: 文件格式, type: string } }, type: object, example: { id: 1, daily_title: 关于益生菌相关进展、产品包装进展、三方沟通会, fileName: 0327-上药信谊战略合作沟通, fileOss: '', time: '2020-03-17', type: 建议, format: PDF } } }
+                type: object
+  /api/pmp/axEditFileType:
+    post:
+      tags:
+        - 文件管理
+      summary: '4.2 修改文件类型 TODO'
+      operationId: axEditFileType
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file_id
+                - type
+              properties:
+                file_id:
+                  description: 文件ID
+                  type: integer
+                type:
+                  description: 文件类型
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  type: { description: 文件类型, type: string }
+                type: object
+  /api/pmp/axDeleteFile:
+    get:
+      tags:
+        - 文件管理
+      summary: '4.3 删除文件 TODO'
+      operationId: axDeleteFile
+      parameters:
+        -
+          name: file_id
+          in: query
+          description: 文件ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/pmp/axGetComments:
+    post:
+      tags:
+        - 评论管理
+      summary: '5.1 获取评论管理列表 TODO'
+      operationId: axGetComments
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                user_name:
+                  description: 评论者姓名
+                  type: string
+                content:
+                  description: 评论内容
+                  type: string
+                daily_title:
+                  description: 关联日志简介
+                  type: string
+                daily_content_title:
+                  description: 日志模块标题
+                  type: string
+                reply_content:
+                  description: 回复信息
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, userName: { description: 评论者姓名, type: string }, dailyTitle: { description: 日志标题, type: string }, dailyContentTitle: { description: 模块标题, type: string }, content: { description: 评论内容, type: string }, replyUserName: { description: 回复用户姓名, type: string }, replyContent: { description: 回复信息, type: string }, created: { description: 创建时间, type: string } }, type: object, example: { id: 1, userName: 张三, dailyTitle: 0327-上药信谊战略合作沟通, dailyContentTitle: 第一项, content: 超级棒, replyUserName: '', replyContent: '', created: '03-05 21:33' } } }
+                type: object
+  /api/pmp/axDeleteComment:
+    get:
+      tags:
+        - 评论管理
+      summary: '5.2 删除评论 TODO'
+      operationId: axDeleteComment
+      parameters:
+        -
+          name: comment_id
+          in: query
+          description: 评论ID
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           content:
