@@ -176,21 +176,19 @@ paths:
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, uuid: { description: uuid, type: string }, title: { description: 简介, type: string }, time: { description: 时间, type: string }, audit_status: { description: 审核状态：0->编辑中；1->已审核, type: integer }, auditStatusStr: { description: 审核状态-字符串, type: string }, created: { description: 创建时间, type: string }, detaultUrl: { description: 前台页面链接, type: string } }, type: object, example: { id: 1, uuid: '123', title: 日日日日日日日, time: '2020-03-19', audit_status: 0, created: '2020-03-20 00:00:00', detaultUrl: /daily/s/123, auditStatusStr: 编辑中 } } }
                 type: object
   /api/pmp/axGetDailyDetail:
-    post:
+    get:
       tags:
         - 日志管理
       summary: '2.2 获取一个日志详情'
       operationId: axGetDailyDetail
-      parameters: []
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              properties:
-                daily_id:
-                  description: 日志ID
-                  type: integer
-              type: object
+      parameters:
+        -
+          name: daily_id
+          in: query
+          description: 日志ID
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -237,6 +235,79 @@ paths:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
                   id: { description: 数据ID, type: integer, example: '1' }
+                type: object
+  /api/pmp/axDeleteDaily:
+    get:
+      tags:
+        - 日志管理
+      summary: '2.4 删除日志'
+      operationId: axDeleteDaily
+      parameters:
+        -
+          name: daily_id
+          in: query
+          description: 日志ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/pmp/axPublishDaily:
+    get:
+      tags:
+        - 日志管理
+      summary: '2.5 发布日报'
+      operationId: axPublishDaily
+      parameters:
+        -
+          name: daily_id
+          in: query
+          description: 日志ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  audit_status: { description: 审核状态：0->编辑中；1->已审核, type: integer, example: '1' }
+                type: object
+  /api/pmp/axSendAlertToDailyReceives:
+    post:
+      tags:
+        - 日志管理
+      summary: '2.6 给某一篇日志的接收人发通知'
+      operationId: axSendAlertToDailyReceives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                daily_id:
+                  description: 日志ID
+                  type: integer
+                  example: '1'
+                memberIDs:
+                  description: 人员ID数组
+                  type: array
+                  items: { type: integer }
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
                 type: object
 components:
   schemas:
