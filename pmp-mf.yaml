@@ -5,10 +5,10 @@ info:
   version: 1.0.0
 servers:
   -
-    url: 'http://xx.mr-gut.cn'
+    url: 'http://xw.mr-gut.cn'
     description: 测试域名
   -
-    url: 'http://www.mr-gut.cn'
+    url: 'http://coop.mr-gut.cn'
     description: 正式域名
 paths:
   /api/pmp/axUploadImage:
@@ -201,7 +201,42 @@ paths:
                   daily: { description: 日志详情, properties: { id: { description: ID, type: integer }, title: { description: 简介, type: string }, time: { description: 时间, type: string }, audit_status: { description: 审核状态：0->编辑中；1->已审核, type: integer }, auditStatusStr: { description: 审核状态-字符串, type: string }, detaultUrl: { description: 前台页面链接, type: string } }, type: object, example: { id: 1, title: 点点滴滴, time: '2020-03-19', audit_status: 0, detaultUrl: /daily/s/123, auditStatusStr: 编辑中 } }
                   contents: { description: 日志内容数组, type: array, items: { properties: { id: { description: 日志内容ID, type: integer }, title: { description: 模块标题, type: string }, work_summary: { description: 工作纪要, type: array, items: { type: string } }, measures: { description: 推进措施, type: array, items: { type: string } }, other: { description: 其他说明, type: array, items: { type: string } } }, type: object } }
                   receives: { description: 接收人数组, type: array, items: { properties: { id: { description: 接收人ID, type: integer }, name: { description: 接收人姓名, type: string } }, type: object, example: { id: 1, name: 赵纬宇 } } }
-                  files: { description: 日志附件数组, type: array, items: { properties: { id: { description: 附件ID, type: integer }, file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-展示用, type: string } }, type: object, example: { id: 1, file: '/pmp/200403/4月3日-上药信谊&热心肠研究院工作日志.pdf', fileOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/pmp/200403/4%E6%9C%883%E6%97%A5-%E4%B8%8A%E8%8D%AF%E4%BF%A1%E8%B0%8A&%E7%83%AD%E5%BF%83%E8%82%A0%E7%A0%94%E7%A9%B6%E9%99%A2%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97.pdf' } } }
+                  files: { description: 日志附件数组, type: array, items: { properties: { file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-展示用, type: string } }, type: object, example: { file: '/pmp/200403/4月3日-上药信谊&热心肠研究院工作日志.pdf', fileOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/pmp/200403/4%E6%9C%883%E6%97%A5-%E4%B8%8A%E8%8D%AF%E4%BF%A1%E8%B0%8A&%E7%83%AD%E5%BF%83%E8%82%A0%E7%A0%94%E7%A9%B6%E9%99%A2%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97.pdf' } } }
+                type: object
+  /api/pmp/axEditDaily:
+    post:
+      tags:
+        - 日志管理
+      summary: '2.3 新增/修改日志'
+      operationId: axEditDaily
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                daily:
+                  description: 日志详情
+                  properties: { id: { description: ID，新增为0, required: true, type: integer }, title: { description: 简介, required: true, type: string }, time: { description: 时间, required: true, type: string } }
+                  type: object
+                  example: { id: 1, title: 点点滴滴, time: '2020-03-19' }
+                contents:
+                  description: 日志内容数组
+                  type: array
+                  items: { properties: { id: { description: 日志内容ID，新增为0, required: true, type: integer }, title: { description: 模块标题, required: true, type: string }, work_summary: { description: 工作纪要, type: array, items: { type: string } }, measures: { description: 推进措施, type: array, items: { type: string } }, other: { description: 其他说明, type: array, items: { type: string } } }, type: object }
+                files:
+                  description: 日志附件数组
+                  type: array
+                  items: { properties: { file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-展示用, type: string } }, type: object, example: { file: '/pmp/200403/4月3日-上药信谊&热心肠研究院工作日志.pdf', fileOss: 'https://pics-xldkp-com.oss-cn-qingdao.aliyuncs.com/pmp/200403/4%E6%9C%883%E6%97%A5-%E4%B8%8A%E8%8D%AF%E4%BF%A1%E8%B0%8A&%E7%83%AD%E5%BF%83%E8%82%A0%E7%A0%94%E7%A9%B6%E9%99%A2%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97.pdf' } }
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  id: { description: 数据ID, type: integer, example: '1' }
                 type: object
 components:
   schemas:
