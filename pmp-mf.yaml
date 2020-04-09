@@ -425,7 +425,7 @@ paths:
     post:
       tags:
         - 文件管理
-      summary: '4.1 获取文件管理列表 TODO'
+      summary: '4.1 获取文件管理列表'
       operationId: axGetFiles
       parameters: []
       requestBody:
@@ -453,13 +453,13 @@ paths:
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   allTypes: { description: 文件类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, daily_title: { description: 关联日志简介, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-全路径, type: string }, time: { description: 发布日期, type: string }, type: { description: 文件类型, type: string }, format: { description: 文件格式, type: string } }, type: object, example: { id: 1, daily_title: 关于益生菌相关进展、产品包装进展、三方沟通会, fileName: 0327-上药信谊战略合作沟通, fileOss: '', time: '2020-03-17', type: 建议, format: PDF } } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, daily_title: { description: 关联日志简介, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-全路径, type: string }, time: { description: 发布日期, type: string }, type: { description: 文件类型, type: string }, typeStr: { description: 文件类型, type: string }, format: { description: 文件格式, type: string }, formatStr: { description: 文件格式, type: string } }, type: object, example: { id: 1, daily_title: 关于益生菌相关进展、产品包装进展、三方沟通会, fileName: 0327-上药信谊战略合作沟通, fileOss: '', time: '2020-03-17', type: suggest, format: pdf, typeStr: 建议, formatStr: PDF } } }
                 type: object
   /api/pmp/axEditFileType:
     post:
       tags:
         - 文件管理
-      summary: '4.2 修改文件类型 TODO'
+      summary: '4.2 修改文件类型'
       operationId: axEditFileType
       requestBody:
         content:
@@ -483,13 +483,13 @@ paths:
               schema:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
-                  type: { description: 文件类型, type: string }
+                  codemsg: { description: 返回信息, type: string, example: 请完善必填项 }
                 type: object
   /api/pmp/axDeleteFile:
     get:
       tags:
         - 文件管理
-      summary: '4.3 删除文件 TODO'
+      summary: '4.3 删除文件'
       operationId: axDeleteFile
       parameters:
         -
@@ -511,7 +511,7 @@ paths:
     post:
       tags:
         - 评论管理
-      summary: '5.1 获取评论管理列表 TODO'
+      summary: '5.1 获取评论管理列表'
       operationId: axGetComments
       parameters: []
       requestBody:
@@ -550,7 +550,7 @@ paths:
     get:
       tags:
         - 评论管理
-      summary: '5.2 删除评论 TODO'
+      summary: '5.2 删除评论'
       operationId: axDeleteComment
       parameters:
         -
