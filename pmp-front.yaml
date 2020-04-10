@@ -15,7 +15,7 @@ paths:
     get:
       tags:
         - 基础
-      summary: '1.1 获取一个日志详情'
+      summary: 获取一个日志详情
       operationId: axGetDailyDetail
       parameters:
         -
@@ -37,3 +37,100 @@ paths:
                   dailyList: { description: 更多日报列表, type: array, items: { properties: { id: { description: 日报ID, type: integer }, title: { description: 简介, type: string }, time: { description: 日期, type: string }, timeCh: { description: 日期-中文, type: string }, detaultUrl: { description: 跳转链接, type: string } }, type: object } }
                   files: { description: 日志附件数组, type: array, items: { properties: { file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-PC端用, type: string }, fileFull: { description: 文件路径-移动端用, type: string } }, type: object } }
                 type: object
+  /api/pmpf/axGetFiles:
+    post:
+      tags:
+        - 基础
+      summary: 获取文件管理列表
+      operationId: axGetFiles
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                type:
+                  description: 文件类型
+                  type: string
+                format:
+                  description: 文件格式
+                  type: string
+                time:
+                  description: 日期
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  allTypes: { description: 文件类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  allFormats: { description: 文件格式筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  allTimes: { description: 日期筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, fileName: { description: 文件名称, type: string }, file: { description: 文件, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string }, time: { description: 发布日期, type: string } }, type: object } }
+                type: object
+
+components:
+  schemas:
+    OptionItem:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptionItem'
+        -
+          properties:
+            value:
+              description: 值
+              type: string
+            label:
+              description: Label
+              type: string
+          type: object
+    SearchSelectOptions:
+      description: 列表搜索select筛选项
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchSelectOptions'
+        -
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionItem'
+    SearchParams:
+      description: 列表搜索参数
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchParams'
+        -
+          properties:
+            more:
+              description: 更多参见搜索项
+              type: string
+          type: object
+          example:
+            more: 更多参见搜索项
+    PageParams:
+      description: 分页数据
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/PageParams'
+        -
+          properties:
+            page:
+              description: 页码
+              type: integer
+            limit:
+              description: 页码
+              type: integer
+            count:
+              description: 总数
+              type: integer
+          type: object
+          example:
+            page: 1
+            limit: 20
+            count: '100'
