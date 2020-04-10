@@ -1,5 +1,39 @@
 openapi: 3.0.0
 info:
   title: 日志系统-前台-API
-  version: '1.0'
-
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://xw.mr-gut.cn'
+    description: 测试域名
+  -
+    url: 'http://coop.mr-gut.cn'
+    description: 正式域名
+paths:
+  /api/pmpf/axGetDailyDetail:
+    get:
+      tags:
+        - 基础
+      summary: '1.1 获取一个日志详情'
+      operationId: axGetDailyDetail
+      parameters:
+        -
+          name: uuid
+          in: query
+          description: 日志UUID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  daily: { description: 日志详情, properties: { id: { description: ID, type: integer }, title: { description: 简介, type: string }, time: { description: 时间, type: string } }, type: object, example: { id: 1, title: 点点滴滴, time: '2020-03-19' } }
+                  contents: { description: 日志内容数组, type: array, items: { properties: { id: { description: 日志内容ID, type: integer }, title: { description: 模块标题, type: string }, work_summary: { description: 工作纪要, type: array, items: { type: string } }, measures: { description: 推进措施, type: array, items: { type: string } }, other: { description: 其他说明, type: array, items: { type: string } } }, type: object } }
+                  dailyList: { description: 更多日报列表, type: array, items: { properties: { id: { description: 日报ID, type: integer }, title: { description: 简介, type: string }, time: { description: 日期, type: string }, timeCh: { description: 日期-中文, type: string }, detaultUrl: { description: 跳转链接, type: string } }, type: object } }
+                  files: { description: 日志附件数组, type: array, items: { properties: { file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-PC端用, type: string }, fileFull: { description: 文件路径-移动端用, type: string } }, type: object } }
+                type: object
