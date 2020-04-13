@@ -73,6 +73,27 @@ paths:
                   allTimes: { description: 日期筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, fileName: { description: 文件名称, type: string }, file: { description: 文件, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string }, time: { description: 发布日期, type: string } }, type: object } }
                 type: object
+  /api/pmpf/axGetPageInfo:
+    post:
+      tags:
+        - 基础
+      summary: 获取页面基础信息
+      operationId: axGetPageInfo
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  loginUser: { description: 用户信息, properties: { id: { description: 用户ID, type: integer }, nickname: { description: 昵称, type: string }, name: { description: 姓名, type: string }, avatar: { description: 头像, type: string } }, type: object }
+                  followGzh: { description: 是否关注公众号, type: boolean }
+                  isMobile: { description: 是否移动端, type: boolean }
+                  isWeixin: { description: 是否微信端, type: boolean }
+                  loginUrl: { description: 登录链接, type: string }
+                  signPackage: { description: 微信js需要的数据, properties: { appId: { description: appId, type: string }, nonceStr: { description: nonceStr, type: string }, timestamp: { description: timestamp, type: string }, signature: { description: signature, type: string } }, type: object }
+                  shareInfo: { description: 分享信息, properties: { title: { description: 标题, type: string }, description: { description: 描述, type: string }, image: { description: 图片, type: string }, link: { description: 链接, type: string } }, type: object }
+                type: object
 
 components:
   schemas:
