@@ -74,7 +74,7 @@ paths:
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, fileName: { description: 文件名称, type: string }, file: { description: 文件, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string }, time: { description: 发布日期, type: string } }, type: object } }
                 type: object
   /api/pmpf/axGetPageInfo:
-    post:
+    get:
       tags:
         - 基础
       summary: 获取页面基础信息
