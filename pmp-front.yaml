@@ -94,6 +94,22 @@ paths:
                   signPackage: { description: 微信js需要的数据, properties: { appId: { description: appId, type: string }, nonceStr: { description: nonceStr, type: string }, timestamp: { description: timestamp, type: string }, signature: { description: signature, type: string } }, type: object }
                   shareInfo: { description: 分享信息, properties: { title: { description: 标题, type: string }, description: { description: 描述, type: string }, image: { description: 图片, type: string }, link: { description: 链接, type: string } }, type: object }
                 type: object
+  /api/pmpf/axGetReportInfo:
+    get:
+      tags:
+        - 基础
+      summary: 获取研报信息
+      operationId: axGetReportInfo
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  url: { description: 详情URL, type: string }
+                type: object
 
 components:
   schemas:
