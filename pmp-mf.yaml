@@ -224,9 +224,9 @@ paths:
                 daily:
                   description: 日志详情
                   required: true
-                  properties: { id: { description: ID，新增为0, required: true, type: integer }, title: { description: 简介, required: true, type: string }, time: { description: 时间, required: true, type: string } }
+                  properties: { id: { description: ID，新增为0, required: true, type: integer }, time: { description: 时间, required: true, type: string } }
                   type: object
-                  example: { id: 1, title: 点点滴滴, time: '2020-03-19' }
+                  example: { id: 1, time: '2020-03-19' }
                 contents:
                   description: 日志内容数组
                   required: true
@@ -442,6 +442,12 @@ paths:
                 time:
                   description: 发布日期
                   type: string
+                type:
+                  description: 文件类型
+                  type: string
+                format:
+                  description: 文件格式
+                  type: string
               type: object
       responses:
         '200':
@@ -453,6 +459,7 @@ paths:
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   allTypes: { description: 文件类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  allFormats: { description: 文件格式筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, daily_title: { description: 关联日志简介, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-全路径, type: string }, time: { description: 发布日期, type: string }, type: { description: 文件类型, type: string }, typeStr: { description: 文件类型, type: string }, format: { description: 文件格式, type: string }, formatStr: { description: 文件格式, type: string } }, type: object, example: { id: 1, daily_title: 关于益生菌相关进展、产品包装进展、三方沟通会, fileName: 0327-上药信谊战略合作沟通, fileOss: '', time: '2020-03-17', type: suggest, format: pdf, typeStr: 建议, formatStr: PDF } } }
                 type: object
   /api/pmp/axEditFileType:
@@ -568,6 +575,7 @@ paths:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
                 type: object
+
 components:
   schemas:
     OptionItem:
