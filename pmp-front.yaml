@@ -87,6 +87,8 @@ paths:
               schema:
                 properties:
                   loginUser: { description: 用户信息, properties: { id: { description: 用户ID, type: integer }, nickname: { description: 昵称, type: string }, name: { description: 姓名, type: string }, avatar: { description: 头像, type: string } }, type: object }
+                  pageTitle: { description: 页面标题, type: string }
+                  pageDesc: { description: 页面描述, type: string }
                   followGzh: { description: 是否关注公众号, type: boolean }
                   isMobile: { description: 是否移动端, type: boolean }
                   isWeixin: { description: 是否微信端, type: boolean }
