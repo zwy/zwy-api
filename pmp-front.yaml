@@ -37,6 +37,21 @@ paths:
                   dailyList: { description: 更多日报列表, type: array, items: { properties: { id: { description: 日报ID, type: integer }, title: { description: 简介, type: string }, time: { description: 日期, type: string }, timeCh: { description: 日期-中文, type: string }, detaultUrl: { description: 跳转链接, type: string } }, type: object } }
                   files: { description: 日志附件数组, type: array, items: { properties: { file: { description: 文件路径, type: string }, fileOss: { description: 文件路径-PC端用, type: string }, fileFull: { description: 文件路径-移动端用, type: string } }, type: object } }
                 type: object
+  /api/pmpf/axGetDailyList:
+    get:
+      tags:
+        - 基础
+      summary: 获取一个日志列表
+      operationId: axGetDailyList
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  dailyList: { description: 更多日报列表, type: array, items: { properties: { id: { description: 日报ID, type: integer }, title: { description: 简介, type: string }, time: { description: 日期, type: string }, timeCh: { description: 日期-中文, type: string }, detaultUrl: { description: 跳转链接, type: string } }, type: object } }
+                type: object
   /api/pmpf/axGetFiles:
     post:
       tags:

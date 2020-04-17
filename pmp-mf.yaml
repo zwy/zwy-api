@@ -355,7 +355,7 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, name: { description: 简介, type: string }, phone: { description: 时间, type: string }, email: { description: 审核状态：0->编辑中；1->已审核, type: integer }, org_name: { description: 审核状态-字符串, type: string } }, type: object, example: { id: 1, user_id: 1, name: 刘晓婷, phone: '17310568207', org_name: 上药信谊, email: 610330674@qq.com } } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, email: { description: 邮箱, type: integer }, org_name: { description: 机构名称, type: string } }, type: object, example: { id: 1, user_id: 1, name: 刘晓婷, phone: '17310568207', org_name: 上药信谊, email: 610330674@qq.com } } }
                 type: object
   /api/pmp/axEditMember:
     post:
