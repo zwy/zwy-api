@@ -460,7 +460,7 @@ paths:
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   allTypes: { description: 文件类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   allFormats: { description: 文件格式筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, daily_title: { description: 关联日志简介, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-全路径, type: string }, time: { description: 发布日期, type: string }, type: { description: 文件类型, type: string }, typeStr: { description: 文件类型, type: string }, format: { description: 文件格式, type: string }, formatStr: { description: 文件格式, type: string } }, type: object, example: { id: 1, daily_title: 关于益生菌相关进展、产品包装进展、三方沟通会, fileName: 0327-上药信谊战略合作沟通, fileOss: '', time: '2020-03-17', type: suggest, format: pdf, typeStr: 建议, formatStr: PDF } } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, daily_title: { description: 关联日志简介, type: string }, dailyUrl: { description: 日志前台链接, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-全路径, type: string }, time: { description: 发布日期, type: string }, type: { description: 文件类型, type: string }, typeStr: { description: 文件类型, type: string }, format: { description: 文件格式, type: string }, formatStr: { description: 文件格式, type: string } }, type: object, example: { id: 1, daily_title: 关于益生菌相关进展、产品包装进展、三方沟通会, dailyUrl: '', fileName: 0327-上药信谊战略合作沟通, fileOss: '', time: '2020-03-17', type: suggest, format: pdf, typeStr: 建议, formatStr: PDF } } }
                 type: object
   /api/pmp/axEditFileType:
     post:
@@ -551,7 +551,7 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, userName: { description: 评论者姓名, type: string }, dailyTitle: { description: 日志标题, type: string }, dailyContentTitle: { description: 模块标题, type: string }, content: { description: 评论内容, type: string }, replyUserName: { description: 回复用户姓名, type: string }, replyContent: { description: 回复信息, type: string }, created: { description: 创建时间, type: string } }, type: object, example: { id: 1, userName: 张三, dailyTitle: 0327-上药信谊战略合作沟通, dailyContentTitle: 第一项, content: 超级棒, replyUserName: '', replyContent: '', created: '03-05 21:33' } } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, userName: { description: 评论者姓名, type: string }, dailyTitle: { description: 日志标题, type: string }, dailyUrl: { description: 日志前台链接, type: string }, dailyContentTitle: { description: 模块标题, type: string }, content: { description: 评论内容, type: string }, replyUserName: { description: 回复用户姓名, type: string }, replyContent: { description: 回复信息, type: string }, created: { description: 创建时间, type: string } }, type: object, example: { id: 1, userName: 张三, dailyTitle: 0327-上药信谊战略合作沟通, dailyUrl: '', dailyContentTitle: 第一项, content: 超级棒, replyUserName: '', replyContent: '', created: '03-05 21:33' } } }
                 type: object
   /api/pmp/axDeleteComment:
     get:
