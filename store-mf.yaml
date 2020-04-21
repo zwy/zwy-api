@@ -11,6 +11,167 @@ servers:
     url: 'http://st.mr-gut.cn'
     description: 正式域名
 paths:
+  /api/store/axGetSellers:
+    post:
+      tags:
+        - 人员管理
+      summary: '5.2 获取销售员管理列表'
+      operationId: axGetSellers
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                id:
+                  description: 编号
+                  type: integer
+                name:
+                  description: 姓名
+                  type: string
+                phone:
+                  description: 联系方式
+                  type: string
+                employer:
+                  description: 单位
+                  type: string
+                parent_id:
+                  description: 运营客服
+                  type: string
+                sort:
+                  description: 排序：id->创建时间；order_cnt->订单数
+                  type: string
+                direction:
+                  description: 排序方式：倒叙->desc；正序->asc；
+                  type: string
+                page:
+                  description: 页码，默认1
+                  type: integer
+                limit:
+                  description: 每页多少条，默认20
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  deliveryTypeOptions: { description: 配送方式筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  chaterOptions: { description: 业务员筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  agentOptions: { description: 代理商筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  parentOptions: { description: 运营客服筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, employer: { description: 单位, type: integer }, order_cnt: { description: 订单数, type: string }, delivery_type: { description: 配送方式：kuaidi->快递，self->自取, type: string }, deliveryType: { description: 配送方式：kuaidi->快递，self->自取, type: string }, parent_id: { description: 客服-ID, type: string }, parent_name: { description: 客服-姓名, type: string }, parent_wechat: { description: 客服-微信号, type: string }, agent_id: { description: 代理商-ID, type: string }, agent_name: { description: 代理商-姓名, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, tags: { description: 标签数组, type: array, items: { type: string } } }, type: object } }
+                type: object
+  /api/store/axGetChaters:
+    post:
+      tags:
+        - 人员管理
+      summary: '5.7 获取业务员管理列表'
+      operationId: axGetChaters
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                id:
+                  description: 编号
+                  type: integer
+                name:
+                  description: 姓名
+                  type: string
+                phone:
+                  description: 联系方式
+                  type: string
+                wechat:
+                  description: 微信号
+                  type: string
+                employer:
+                  description: 单位
+                  type: string
+                sort:
+                  description: 排序：id->创建时间；order_cnt->订单数
+                  type: string
+                direction:
+                  description: 排序方式：倒叙->desc；正序->asc；
+                  type: string
+                page:
+                  description: 页码，默认1
+                  type: integer
+                limit:
+                  description: 每页多少条，默认20
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string } }, type: object } }
+                type: object
+  /api/store/axGetAgents:
+    post:
+      tags:
+        - 人员管理
+      summary: '5.9 获取代理商管理列表'
+      operationId: axGetAgents
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                id:
+                  description: 编号
+                  type: integer
+                name:
+                  description: 姓名
+                  type: string
+                phone:
+                  description: 联系方式
+                  type: string
+                wechat:
+                  description: 微信号
+                  type: string
+                employer:
+                  description: 单位
+                  type: string
+                chater_id:
+                  description: 业务员
+                  type: integer
+                sort:
+                  description: 排序：id->创建时间；order_cnt->订单数
+                  type: string
+                direction:
+                  description: 排序方式：倒叙->desc；正序->asc；
+                  type: string
+                page:
+                  description: 页码，默认1
+                  type: integer
+                limit:
+                  description: 每页多少条，默认20
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  chaterOptions: { description: 业务员筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string } }, type: object } }
+                type: object
   /api/pmp/axSearchSeller:
     post:
       tags:
@@ -178,7 +339,7 @@ paths:
         -
           name: stock_log_id
           in: query
-          description: 人员ID
+          description: 库存记录ID
           required: true
           schema:
             type: integer
