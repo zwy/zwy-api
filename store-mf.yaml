@@ -11,6 +11,36 @@ servers:
     url: 'http://st.mr-gut.cn'
     description: 正式域名
 paths:
+  /api/pmp/axSearchSeller:
+    post:
+      tags:
+        - 基础
+      summary: 搜索销售员、代理商、业务员
+      operationId: axSearchSeller
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - term
+                - identity
+              properties:
+                term:
+                  description: 搜索内容
+                  type: string
+                identity:
+                  description: 身份：seller->销售员；agent->代理商；chater->业务员/客服；
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OptionItem'
   /api/store/axGetStockLogs:
     post:
       tags:
@@ -39,8 +69,127 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
-                  stat: { description: 统计详情, properties: { inCount: { description: 入库数量, type: integer }, outCount: { description: 出库数量, type: string }, remainingCount: { description: 剩余数量, type: string } }, type: object }
+                  stat: { description: 统计详情, properties: { inCount: { description: 入库数量, type: integer }, outCount: { description: 出库数量, type: integer }, remainingCount: { description: 剩余数量, type: integer } }, type: object }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名称, type: string }, type: { description: 类型：in->入库；out->出库, type: string }, typeStr: { description: 类型：in->入库；out->出库, type: string }, product_name: { description: 商品名称, type: string }, product_code: { description: 商品编码, type: string }, product_count: { description: 商品数量, type: integer }, order_id: { description: 订单ID, type: integer }, order_sn: { description: 订单编码, type: string }, seller_id: { description: 销售员ID, type: integer }, sellerName: { description: 销售员姓名, type: string }, agent_id: { description: 代理商ID, type: integer }, agentName: { description: 代理商姓名, type: string }, chater_id: { description: 业务员ID, type: integer }, chaterName: { description: 业务员姓名, type: string }, saled: { description: 已确认售出：0->未确认1->已确认, type: integer }, saled_time: { description: 已确认售出时间, type: string }, remark: { description: 备注信息, type: string }, created: { description: 创建时间, type: string } }, type: object } }
+                type: object
+  /api/store/axAddInStockLog:
+    post:
+      tags:
+        - 库存管理
+      summary: 新建入库数据
+      operationId: axAddInStockLog
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - way
+              properties:
+                way:
+                  description: 创建方式：normal->普通；continuous->连续；
+                  type: string
+                product_name:
+                  description: 商品名称
+                  type: string
+                product_code:
+                  description: 商品编码，创建方式=normal，必填，其他不填
+                  type: string
+                product_count:
+                  description: 商品数量，创建方式=normal，必填，其他不填
+                  type: integer
+                start_code:
+                  description: 起始编码，创建方式=continuous，必填，其他不填
+                  type: string
+                end_code:
+                  description: 截止编码，创建方式=continuous，必填，其他不填
+                  type: string
+                remark:
+                  description: 备注信息
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                type: object
+  /api/store/axAddOutStockLog:
+    post:
+      tags:
+        - 库存管理
+      summary: 新建出库数据
+      operationId: axAddOutStockLog
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - way
+              properties:
+                way:
+                  description: 创建方式：normal->普通；continuous->连续；
+                  type: string
+                product_code:
+                  description: 商品编码，创建方式=normal，必填，其他不填
+                  type: string
+                product_count:
+                  description: 商品数量，创建方式=normal，必填，其他不填
+                  type: integer
+                start_code:
+                  description: 起始编码，创建方式=continuous，必填，其他不填
+                  type: string
+                end_code:
+                  description: 截止编码，创建方式=continuous，必填，其他不填
+                  type: string
+                seller_id:
+                  description: 销售员ID，使用axSearchSeller搜索名称获取
+                  type: integer
+                agent_id:
+                  description: 代理商ID，使用axSearchSeller搜索名称获取
+                  type: integer
+                chater_id:
+                  description: 业务员ID，使用axSearchSeller搜索名称获取
+                  type: integer
+                remark:
+                  description: 备注信息
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                type: object
+  /api/store/axDeleteStockLog:
+    get:
+      tags:
+        - 库存管理
+      summary: 删除库存记录
+      operationId: axDeleteStockLog
+      parameters:
+        -
+          name: stock_log_id
+          in: query
+          description: 人员ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 请完善必填项 }
                 type: object
 
 components:
