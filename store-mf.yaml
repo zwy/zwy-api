@@ -35,7 +35,13 @@ paths:
                 employer:
                   description: 单位
                   type: string
-                parent_id:
+                agent_name:
+                  description: 代理商姓名
+                  type: string
+                chater_name:
+                  description: 业务员姓名
+                  type: string
+                parent_name:
                   description: 运营客服
                   type: string
                 sort:
@@ -61,9 +67,6 @@ paths:
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   deliveryTypeOptions: { description: 配送方式筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  chaterOptions: { description: 业务员筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  agentOptions: { description: 代理商筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  parentOptions: { description: 运营客服筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, employer: { description: 单位, type: integer }, order_cnt: { description: 订单数, type: string }, delivery_type: { description: 配送方式：kuaidi->快递，self->自取, type: string }, deliveryType: { description: 配送方式：kuaidi->快递，self->自取, type: string }, parent_id: { description: 客服-ID, type: string }, parent_name: { description: 客服-姓名, type: string }, parent_wechat: { description: 客服-微信号, type: string }, agent_id: { description: 代理商-ID, type: string }, agent_name: { description: 代理商-姓名, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, tags: { description: 标签数组, type: array, items: { type: string } } }, type: object } }
                 type: object
   /api/store/axGetChaters:
@@ -115,7 +118,7 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, agent_cnt: { description: 代理商数量, type: string }, order_cnt: { description: 订单数, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, tags: { description: 标签数组, type: array, items: { type: string } } }, type: object } }
                 type: object
   /api/store/axGetAgents:
     post:
@@ -144,7 +147,7 @@ paths:
                 employer:
                   description: 单位
                   type: string
-                chater_id:
+                chater_name:
                   description: 业务员
                   type: integer
                 sort:
@@ -170,7 +173,7 @@ paths:
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   chaterOptions: { description: 业务员筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, delivery_type: { description: 配送方式：kuaidi->快递，self->自取, type: string }, deliveryType: { description: 配送方式：kuaidi->快递，self->自取, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, tags: { description: 标签数组, type: array, items: { type: string } } }, type: object } }
                 type: object
   /api/pmp/axSearchSeller:
     post:
@@ -230,7 +233,7 @@ paths:
                   description: 销售员姓名
                   type: string
                 agent_name:
-                  description: 销售员姓名
+                  description: 代理商姓名
                   type: string
                 chater_name:
                   description: 业务员姓名
@@ -263,7 +266,7 @@ paths:
                   typeOptions: { description: 库存类型, $ref: '#/components/schemas/SearchSelectOptions' }
                   saledOptions: { description: 售出状态, $ref: '#/components/schemas/SearchSelectOptions' }
                   stat: { description: 统计详情, properties: { inCount: { description: 入库数量, type: integer }, outCount: { description: 出库数量, type: integer }, remainingCount: { description: 剩余数量, type: integer } }, type: object }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名称, type: string }, type: { description: 类型：in->入库；out->出库, type: string }, typeStr: { description: 类型：in->入库；out->出库, type: string }, product_name: { description: 商品名称, type: string }, product_code: { description: 商品编码, type: string }, product_count: { description: 商品数量, type: integer }, order_id: { description: 订单ID, type: integer }, order_sn: { description: 订单编号, type: string }, seller_id: { description: 销售员ID, type: integer }, sellerName: { description: 销售员姓名, type: string }, agent_id: { description: 代理商ID, type: integer }, agentName: { description: 代理商姓名, type: string }, chater_id: { description: 业务员ID, type: integer }, chaterName: { description: 业务员姓名, type: string }, saled: { description: 已确认售出：0->未确认1->已确认, type: integer }, saledStr: { description: 已确认售出：0->未确认1->已确认, type: integer }, saled_time: { description: 已确认售出时间, type: string }, remark: { description: 备注信息, type: string }, created: { description: 创建时间, type: string } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名称, type: string }, type: { description: 类型：in->入库；out->出库, type: string }, typeStr: { description: 类型：in->入库；out->出库, type: string }, product_name: { description: 商品名称, type: string }, product_code: { description: 商品编码, type: string }, product_count: { description: 商品数量, type: integer }, order_id: { description: 订单ID, type: integer }, order_sn: { description: 订单编号, type: string }, seller_id: { description: 销售员ID, type: integer }, seller_name: { description: 销售员姓名, type: string }, agent_id: { description: 代理商ID, type: integer }, agent_name: { description: 代理商姓名, type: string }, chater_id: { description: 业务员ID, type: integer }, chater_name: { description: 业务员姓名, type: string }, saled: { description: 已确认售出：1->未确认2->已确认, type: integer }, saledStr: { description: 已确认售出：1->未确认2->已确认, type: integer }, saled_time: { description: 已确认售出时间, type: string }, remark: { description: 备注信息, type: string }, created: { description: 创建时间, type: string } }, type: object } }
                 type: object
   /api/store/axAddInStockLog:
     post:
