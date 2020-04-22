@@ -206,7 +206,7 @@ paths:
     post:
       tags:
         - 库存管理
-      summary: 获取库存管理列表数据
+      summary: '10.1 获取库存管理列表数据'
       operationId: axGetStockLogs
       parameters: []
       requestBody:
@@ -214,12 +214,42 @@ paths:
           multipart/form-data:
             schema:
               properties:
-                product_name:
-                  description: 商品名称
-                  type: string
                 product_code:
                   description: 商品编码
                   type: string
+                product_name:
+                  description: 商品名称
+                  type: string
+                type:
+                  description: 类型：in->入库；out->出库
+                  type: string
+                order_sn:
+                  description: 订单编号
+                  type: string
+                seller_name:
+                  description: 销售员姓名
+                  type: string
+                agent_name:
+                  description: 销售员姓名
+                  type: string
+                chater_name:
+                  description: 业务员姓名
+                  type: string
+                saled:
+                  description: 售出状态
+                  type: integer
+                in_time:
+                  description: 入库时间，日期
+                  type: string
+                  example: '2020-01-01'
+                out_time:
+                  description: 出库时间，日期
+                  type: string
+                  example: '2020-01-01'
+                saled_time:
+                  description: 售出时间，日期
+                  type: string
+                  example: '2020-01-01'
               type: object
       responses:
         '200':
@@ -230,14 +260,16 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
+                  typeOptions: { description: 库存类型, $ref: '#/components/schemas/SearchSelectOptions' }
+                  saledOptions: { description: 售出状态, $ref: '#/components/schemas/SearchSelectOptions' }
                   stat: { description: 统计详情, properties: { inCount: { description: 入库数量, type: integer }, outCount: { description: 出库数量, type: integer }, remainingCount: { description: 剩余数量, type: integer } }, type: object }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名称, type: string }, type: { description: 类型：in->入库；out->出库, type: string }, typeStr: { description: 类型：in->入库；out->出库, type: string }, product_name: { description: 商品名称, type: string }, product_code: { description: 商品编码, type: string }, product_count: { description: 商品数量, type: integer }, order_id: { description: 订单ID, type: integer }, order_sn: { description: 订单编码, type: string }, seller_id: { description: 销售员ID, type: integer }, sellerName: { description: 销售员姓名, type: string }, agent_id: { description: 代理商ID, type: integer }, agentName: { description: 代理商姓名, type: string }, chater_id: { description: 业务员ID, type: integer }, chaterName: { description: 业务员姓名, type: string }, saled: { description: 已确认售出：0->未确认1->已确认, type: integer }, saled_time: { description: 已确认售出时间, type: string }, remark: { description: 备注信息, type: string }, created: { description: 创建时间, type: string } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名称, type: string }, type: { description: 类型：in->入库；out->出库, type: string }, typeStr: { description: 类型：in->入库；out->出库, type: string }, product_name: { description: 商品名称, type: string }, product_code: { description: 商品编码, type: string }, product_count: { description: 商品数量, type: integer }, order_id: { description: 订单ID, type: integer }, order_sn: { description: 订单编号, type: string }, seller_id: { description: 销售员ID, type: integer }, sellerName: { description: 销售员姓名, type: string }, agent_id: { description: 代理商ID, type: integer }, agentName: { description: 代理商姓名, type: string }, chater_id: { description: 业务员ID, type: integer }, chaterName: { description: 业务员姓名, type: string }, saled: { description: 已确认售出：0->未确认1->已确认, type: integer }, saledStr: { description: 已确认售出：0->未确认1->已确认, type: integer }, saled_time: { description: 已确认售出时间, type: string }, remark: { description: 备注信息, type: string }, created: { description: 创建时间, type: string } }, type: object } }
                 type: object
   /api/store/axAddInStockLog:
     post:
       tags:
         - 库存管理
-      summary: 新建入库数据
+      summary: '10.2 新建入库数据'
       operationId: axAddInStockLog
       parameters: []
       requestBody:
@@ -248,22 +280,22 @@ paths:
                 - way
               properties:
                 way:
-                  description: 创建方式：normal->普通；continuous->连续；
+                  description: 商品类型：normal->普通商品；continuous->检测袋商品；
                   type: string
                 product_name:
                   description: 商品名称
                   type: string
                 product_code:
-                  description: 商品编码，创建方式=normal，必填，其他不填
+                  description: 商品编码，商品类型=normal，必填，其他不填
                   type: string
                 product_count:
-                  description: 商品数量，创建方式=normal，必填，其他不填
+                  description: 商品数量，商品类型=normal，必填，其他不填
                   type: integer
                 start_code:
-                  description: 起始编码，创建方式=continuous，必填，其他不填
+                  description: 起始编码，商品类型=continuous，必填，其他不填
                   type: string
                 end_code:
-                  description: 截止编码，创建方式=continuous，必填，其他不填
+                  description: 截止编码，商品类型=continuous，必填，其他不填
                   type: string
                 remark:
                   description: 备注信息
@@ -282,7 +314,7 @@ paths:
     post:
       tags:
         - 库存管理
-      summary: 新建出库数据
+      summary: '10.3 新建出库数据'
       operationId: axAddOutStockLog
       parameters: []
       requestBody:
@@ -293,19 +325,19 @@ paths:
                 - way
               properties:
                 way:
-                  description: 创建方式：normal->普通；continuous->连续；
+                  description: 商品类型：normal->普通商品；continuous->检测袋商品；
                   type: string
                 product_code:
-                  description: 商品编码，创建方式=normal，必填，其他不填
+                  description: 商品编码，商品类型=normal，必填，其他不填
                   type: string
                 product_count:
-                  description: 商品数量，创建方式=normal，必填，其他不填
+                  description: 商品数量，商品类型=normal，必填，其他不填
                   type: integer
                 start_code:
-                  description: 起始编码，创建方式=continuous，必填，其他不填
+                  description: 起始编码，商品类型=continuous，必填，其他不填
                   type: string
                 end_code:
-                  description: 截止编码，创建方式=continuous，必填，其他不填
+                  description: 截止编码，商品类型=continuous，必填，其他不填
                   type: string
                 seller_id:
                   description: 销售员ID，使用axSearchSeller搜索名称获取
@@ -333,7 +365,7 @@ paths:
     get:
       tags:
         - 库存管理
-      summary: 删除库存记录
+      summary: '10.4 删除库存记录'
       operationId: axDeleteStockLog
       parameters:
         -
