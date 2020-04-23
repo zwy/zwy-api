@@ -890,6 +890,59 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   codemsg: { description: 返回信息, type: string, example: 请完善必填项 }
                 type: object
+  /api/store/axUploadPaymentData:
+    post:
+      tags:
+        - 薪酬管理
+      summary: '20.1 上传薪酬结算文件'
+      operationId: axUploadPaymentData
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - data_file
+              properties:
+                data_file:
+                  description: Excel文件
+                  type: file
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                type: object
+  /api/store/axExportPaymentData:
+    post:
+      tags:
+        - 薪酬管理
+      summary: '20.2 导出薪酬结算数据'
+      operationId: axExportPaymentData
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - start_time
+                - end_time
+                - type
+              properties:
+                start_time:
+                  description: 开始时间
+                  type: string
+                end_time:
+                  description: 截止时间
+                  type: string
+                type:
+                  description: 类型：gys_py->采集袋供应商（谱元）结算；gys->常规供应商结算；seller->销售员薪酬结算；agent->代理商（应付款）薪酬结算；ysk->代理商（应收款）薪酬结算；chater->业务员薪酬结算；
+                  type: string
+              type: object
 
 components:
   schemas:
