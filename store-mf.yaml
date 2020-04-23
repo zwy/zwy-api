@@ -11,6 +11,75 @@ servers:
     url: 'http://st.mr-gut.cn'
     description: 正式域名
 paths:
+  /api/store/axEditProduct:
+    post:
+      tags:
+        - 商品管理
+      summary: '2.3 新增/修改商品'
+      operationId: axEditProduct
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - id
+                - name
+                - price
+                - stock
+              properties:
+                id:
+                  description: 商品ID，新增传0
+                  type: integer
+                publish_status:
+                  description: 发布的时候传：1，其它时候不上传
+                  type: integer
+                name:
+                  description: 商品名称
+                  type: string
+                description:
+                  description: 商品描述
+                  type: string
+                price:
+                  description: 价格，两位小数
+                  type: integer
+                album_pics:
+                  description: 画册图片，连产品图片限制为5张
+                  type: array
+                  items: { type: string }
+                detail_html:
+                  description: 产品详情网页内容
+                  type: integer
+                stock:
+                  description: 库存
+                  type: integer
+                sort:
+                  description: 排序
+                  type: integer
+                tags:
+                  description: 标签数组
+                  type: array
+                  items: { type: string }
+                product_code:
+                  description: 商品编码，用于自动出库
+                  type: string
+                supplier:
+                  description: 供应商名称
+                  type: string
+                supplier_amount:
+                  description: 供应商返佣金额
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                  id: { description: 商品ID, type: integer, example: '1' }
+                type: object
   /api/store/axGetSellers:
     post:
       tags:
@@ -182,6 +251,49 @@ paths:
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, agent_cnt: { description: 代理商数量, type: string }, order_cnt: { description: 订单数, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string } }, type: object } }
                 type: object
+  /api/store/axEditChater:
+    post:
+      tags:
+        - 人员管理
+      summary: '5.8 新增/修改业务员'
+      operationId: axEditChater
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - id
+                - name
+                - wechat
+                - wechat_pic
+              properties:
+                id:
+                  description: 代理商ID，新增传0
+                  type: integer
+                name:
+                  description: 代理商姓名
+                  type: string
+                phone:
+                  description: 手机
+                  type: string
+                wechat:
+                  description: 微信号
+                  type: string
+                wechat_pic:
+                  description: 微信二维码
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                  id: { description: 业务员ID, type: integer, example: '1' }
+                type: object
   /api/store/axGetAgents:
     post:
       tags:
@@ -236,6 +348,75 @@ paths:
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   settleTypeOptions: { description: 结算类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位/代理所属, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, default_settle_type: { description: 结算类型：percent->比例；fixed->固定金额；, type: string }, default_settle_value: { description: 通用商品结算比例/通用商品结算金额（两位小数）, type: string }, settles: { description: 特殊商品结算数组, type: array, items: { properties: { product_id: { description: 商品ID, type: integer }, product_name: { description: 商品名称, type: string }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object } } }, type: object } }
+                type: object
+  /api/store/axEditAgent:
+    post:
+      tags:
+        - 人员管理
+      summary: '5.10 新增/修改代理商'
+      operationId: axEditAgent
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - id
+                - name
+                - chater_id
+                - wechat
+                - wechat_pic
+                - default_settle_type
+                - default_settle_value
+              properties:
+                id:
+                  description: 代理商ID，新增传0
+                  type: integer
+                name:
+                  description: 代理商姓名
+                  type: string
+                phone:
+                  description: 手机
+                  type: string
+                wechat:
+                  description: 微信号
+                  type: string
+                wechat_pic:
+                  description: 微信二维码
+                  type: string
+                employer:
+                  description: 单位/代理所属
+                  type: string
+                chater_id:
+                  description: 业务员ID
+                  type: integer
+                remark:
+                  description: 备注说明
+                  type: string
+                tags:
+                  description: 标签数组
+                  type: array
+                  items: { type: string }
+                default_settle_type:
+                  description: 结算类型：percent->比例；fixed->固定金额；
+                  type: string
+                default_settle_value:
+                  description: 通用商品结算比例/通用商品结算金额（两位小数）
+                  type: string
+                settles:
+                  description: 特殊商品结算数组
+                  type: array
+                  items: { properties: { product_id: { description: 商品ID, type: integer }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object }
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                  id: { description: 代理商ID, type: integer, example: '1' }
                 type: object
   /api/store/axSearchProduct:
     post:
