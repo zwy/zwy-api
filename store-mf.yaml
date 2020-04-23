@@ -11,6 +11,75 @@ servers:
     url: 'http://st.mr-gut.cn'
     description: 正式域名
 paths:
+  /api/store/axEditProduct:
+    post:
+      tags:
+        - 商品管理
+      summary: '2.3 新增/修改商品'
+      operationId: axEditProduct
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - id
+                - name
+                - price
+                - stock
+              properties:
+                id:
+                  description: 商品ID，新增传0
+                  type: integer
+                publish_status:
+                  description: 发布的时候传1，其它时候不上传
+                  type: integer
+                name:
+                  description: 商品名称
+                  type: string
+                description:
+                  description: 商品描述
+                  type: string
+                price:
+                  description: 价格，两位小数
+                  type: integer
+                album_pics:
+                  description: 画册图片，连产品图片限制为5张
+                  type: array
+                  items: { type: string }
+                detail_html:
+                  description: 产品详情网页内容
+                  type: integer
+                stock:
+                  description: 库存
+                  type: integer
+                sort:
+                  description: 排序
+                  type: integer
+                tags:
+                  description: 标签数组
+                  type: array
+                  items: { type: string }
+                product_code:
+                  description: 商品编码，用于自动出库
+                  type: string
+                supplier:
+                  description: 供应商名称
+                  type: string
+                supplier_amount:
+                  description: 供应商返佣金额，两位小数
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                  id: { description: 商品ID, type: integer, example: '1' }
+                type: object
   /api/store/axGetOrders:
     post:
       tags:
@@ -188,6 +257,33 @@ paths:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
                   codemsg: { description: 返回信息, type: string, example: 成功 }
+                type: object
+  /api/store/axGetOrderDetail:
+    post:
+      tags:
+        - 订单管理
+      summary: '3.5 获取订单详情'
+      operationId: axGetOrderDetail
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - order_id
+              properties:
+                order_id:
+                  description: 订单ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  order: { description: 订单详情, properties: { id: { description: ID, type: integer }, order_sn: { description: 订单编号, type: string }, username: { description: 用户昵称, type: string }, pay_amount: { description: 订单实际金额，2位小数, type: integer }, real_amount: { description: 用户已经支付的金额（支付金额-退款金额）, type: integer }, confirm_status: { description: 确认收货状态：0->未确认；1->已确认, type: integer }, status: { description: 订单状态：1->待付款；2->待发货；3->已发货；4->已完成；5->已关闭；0->无效, type: integer }, statusStr: { description: 订单状态：1->待付款；2->待发货；3->已发货；4->已完成；5->已关闭；0->无效, type: string }, seller_id: { description: 销售员ID, type: integer }, seller_name: { description: 销售员姓名, type: string }, receiver_name: { description: 收件人姓名, type: string }, receiver_phone: { description: 收件人电话, type: string }, receiver_receiver_province: { description: 收件地址-省, type: string }, receiver_city: { description: 收件地址-市, type: string }, receiver_county: { description: 收件地址-县, type: string }, receiver_detail_address: { description: 详细地址, type: string }, product_code: { description: 商品编码, type: array, items: { type: string } }, product_sum: { description: 商品总数, type: integer }, product_code_count: { description: 需要填商品编码的数量, type: integer }, order_items: { description: 订单商品信息数组, type: array, items: { properties: { id: { description: '订单商品order_item ID', type: integer }, product_id: { description: 商品ID, type: integer }, product_pic: { description: 商品图片, type: integer }, product_name: { description: 商品名称, type: integer }, product_price: { description: 销售价格, type: integer }, product_quantity: { description: 购买数量, type: integer }, real_amount: { description: 实际支付金额, type: integer } }, type: object } } }, type: object }
                 type: object
   /api/store/axGetSellers:
     post:
