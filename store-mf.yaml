@@ -191,7 +191,6 @@ paths:
                 - order_id
                 - delivery_company
                 - delivery_sn
-                - delivery_price
               properties:
                 order_id:
                   description: 订单ID
@@ -234,7 +233,6 @@ paths:
                 - order_id
                 - delivery_company
                 - delivery_sn
-                - delivery_price
               properties:
                 order_id:
                   description: 订单ID
@@ -622,6 +620,37 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   codemsg: { description: 返回信息, type: string, example: 成功 }
                   id: { description: 代理商ID, type: integer, example: '1' }
+                type: object
+  /api/store/axEditCustomerSeller:
+    post:
+      tags:
+        - 人员管理
+      summary: '5.11 修改客户的销售员'
+      operationId: axEditCustomerSeller
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - user_id
+                - seller_id
+              properties:
+                user_id:
+                  description: 用户ID
+                  type: integer
+                seller_id:
+                  description: 销售员ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
                 type: object
   /api/store/axSearchProduct:
     post:
