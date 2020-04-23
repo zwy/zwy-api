@@ -11,63 +11,173 @@ servers:
     url: 'http://st.mr-gut.cn'
     description: 正式域名
 paths:
-  /api/store/axEditProduct:
+  /api/store/axGetOrders:
     post:
       tags:
-        - 商品管理
-      summary: '2.3 新增/修改商品'
-      operationId: axEditProduct
+        - 订单管理
+      summary: '3.1 获取订单列表'
+      operationId: axGetOrders
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                order_sn:
+                  description: 订单编号
+                  type: string
+                product_name:
+                  description: 商品名称
+                  type: string
+                username:
+                  description: 用户昵称
+                  type: string
+                receiver_name:
+                  description: 收货人姓名
+                  type: string
+                chater_name:
+                  description: 客服姓名
+                  type: string
+                status:
+                  description: 状态
+                  type: integer
+                created_start:
+                  description: 下单开始时间
+                  type: string
+                  example: '2020-01-01'
+                created_end:
+                  description: 下单结束时间
+                  type: string
+                  example: '2020-01-01'
+                payment_time_start:
+                  description: 支付开始时间
+                  type: string
+                  example: '2020-01-01'
+                payment_time_end:
+                  description: 支付结束时间
+                  type: string
+                  example: '2020-01-01'
+                delivery_time_start:
+                  description: 发货开始时间
+                  type: string
+                  example: '2020-01-01'
+                delivery_time_end:
+                  description: 发货结束时间
+                  type: string
+                  example: '2020-01-01'
+                receive_time_start:
+                  description: 确认收货开始时间
+                  type: string
+                  example: '2020-01-01'
+                receive_time_end:
+                  description: 确认收货结束时间
+                  type: string
+                  example: '2020-01-01'
+                close_time_start:
+                  description: 关闭订单开始时间
+                  type: string
+                  example: '2020-01-01'
+                close_time_end:
+                  description: 关闭订单结束时间
+                  type: string
+                  example: '2020-01-01'
+                sort:
+                  description: 排序：id->创建时间；
+                  type: string
+                direction:
+                  description: 排序方式：倒叙->desc；正序->asc；
+                  type: string
+                page:
+                  description: 页码，默认1
+                  type: integer
+                limit:
+                  description: 每页多少条，默认20
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  statusOptions: { description: 状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  statusCnt: { description: 各状态订单数, type: object }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, order_sn: { description: 订单编号, type: string }, username: { description: 用户昵称, type: string }, pay_amount: { description: 订单实际金额，2位小数, type: integer }, real_amount: { description: 用户已经支付的金额（支付金额-退款金额）, type: integer }, confirm_status: { description: 确认收货状态：0->未确认；1->已确认, type: integer }, status: { description: 订单状态：1->待付款；2->待发货；3->已发货；4->已完成；5->已关闭；0->无效, type: integer }, statusStr: { description: 订单状态：1->待付款；2->待发货；3->已发货；4->已完成；5->已关闭；0->无效, type: string }, seller_id: { description: 销售员ID, type: integer }, seller_name: { description: 销售员姓名, type: string }, receiver_name: { description: 收件人姓名, type: string }, receiver_phone: { description: 收件人电话, type: string }, receiver_receiver_province: { description: 收件地址-省, type: string }, receiver_city: { description: 收件地址-市, type: string }, receiver_county: { description: 收件地址-县, type: string }, receiver_detail_address: { description: 详细地址, type: string }, product_code: { description: 商品编码, type: array, items: { type: string } }, product_sum: { description: 商品总数, type: integer }, product_code_count: { description: 需要填商品编码的数量, type: integer }, order_items: { description: 订单商品信息数组, type: array, items: { properties: { id: { description: '订单商品order_item ID', type: integer }, product_id: { description: 商品ID, type: integer }, product_pic: { description: 商品图片, type: integer }, product_name: { description: 商品名称, type: integer }, product_price: { description: 销售价格, type: integer }, product_quantity: { description: 购买数量, type: integer }, real_amount: { description: 实际支付金额, type: integer } }, type: object } } }, type: object } }
+                type: object
+  /api/store/axOrderShip:
+    post:
+      tags:
+        - 订单管理
+      summary: '3.4 提交发货信息'
+      operationId: axOrderShip
       parameters: []
       requestBody:
         content:
           application/json:
             schema:
               required:
-                - id
-                - name
-                - price
-                - stock
+                - order_id
+                - delivery_company
+                - delivery_sn
+                - delivery_price
               properties:
-                id:
-                  description: 商品ID，新增传0
+                order_id:
+                  description: 订单ID
                   type: integer
-                publish_status:
-                  description: 发布的时候传：1，其它时候不上传
-                  type: integer
-                name:
-                  description: 商品名称
+                delivery_company:
+                  description: 快递公司
                   type: string
-                description:
-                  description: 商品描述
+                delivery_sn:
+                  description: 快递单号
                   type: string
-                price:
-                  description: 价格，两位小数
-                  type: integer
-                album_pics:
-                  description: 画册图片，连产品图片限制为5张
-                  type: array
-                  items: { type: string }
-                detail_html:
-                  description: 产品详情网页内容
-                  type: integer
-                stock:
-                  description: 库存
-                  type: integer
-                sort:
-                  description: 排序
-                  type: integer
-                tags:
-                  description: 标签数组
-                  type: array
-                  items: { type: string }
+                delivery_price:
+                  description: 快递费用
+                  type: string
                 product_code:
-                  description: 商品编码，用于自动出库
+                  description: 商品编码数组
+                  type: array
+                  items: { type: string }
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                type: object
+  /api/store/axEditOrderDelivery:
+    post:
+      tags:
+        - 订单管理
+      summary: '3.4.1 修改订单的快递信息'
+      operationId: axEditOrderDelivery
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - order_id
+                - delivery_company
+                - delivery_sn
+                - delivery_price
+              properties:
+                order_id:
+                  description: 订单ID
+                  type: integer
+                delivery_company:
+                  description: 快递公司
                   type: string
-                supplier:
-                  description: 供应商名称
+                delivery_sn:
+                  description: 快递单号
                   type: string
-                supplier_amount:
-                  description: 供应商返佣金额
+                delivery_price:
+                  description: 快递费用
                   type: string
               type: object
       responses:
@@ -78,7 +188,6 @@ paths:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
                   codemsg: { description: 返回信息, type: string, example: 成功 }
-                  id: { description: 商品ID, type: integer, example: '1' }
                 type: object
   /api/store/axGetSellers:
     post:
@@ -347,7 +456,7 @@ paths:
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   settleTypeOptions: { description: 结算类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位/代理所属, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, default_settle_type: { description: 结算类型：percent->比例；fixed->固定金额；, type: string }, default_settle_value: { description: 通用商品结算比例/通用商品结算金额（两位小数）, type: string }, settles: { description: 特殊商品结算数组, type: array, items: { properties: { product_id: { description: 商品ID, type: integer }, product_name: { description: 商品名称, type: string }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object } } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位/代理所属, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, remark: { description: 备注说明, type: string }, default_settle_type: { description: 结算类型：percent->比例；fixed->固定金额；, type: string }, default_settle_value: { description: 通用商品结算比例/通用商品结算金额（两位小数）, type: string }, settles: { description: 特殊商品结算数组, type: array, items: { properties: { product_id: { description: 商品ID, type: integer }, product_name: { description: 商品名称, type: string }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object } } }, type: object } }
                 type: object
   /api/store/axEditAgent:
     post:
