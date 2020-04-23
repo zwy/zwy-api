@@ -237,7 +237,33 @@ paths:
                   settleTypeOptions: { description: 结算类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位/代理所属, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, default_settle_type: { description: 结算类型：percent->比例；fixed->固定金额；, type: string }, default_settle_value: { description: 通用商品结算比例/通用商品结算金额（两位小数）, type: string }, settles: { description: 特殊商品结算数组, type: array, items: { properties: { product_id: { description: 商品ID, type: integer }, product_name: { description: 商品名称, type: string }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object } } }, type: object } }
                 type: object
-  /api/pmp/axSearchSeller:
+  /api/store/axSearchProduct:
+    post:
+      tags:
+        - 基础
+      summary: 搜索商品数据
+      operationId: axSearchProduct
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - term
+              properties:
+                term:
+                  description: 搜索内容
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OptionItem'
+  /api/store/axSearchSeller:
     post:
       tags:
         - 基础
