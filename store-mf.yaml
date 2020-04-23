@@ -93,9 +93,6 @@ paths:
                 wechat:
                   description: 微信号
                   type: string
-                employer:
-                  description: 单位
-                  type: string
                 sort:
                   description: 排序：id->创建时间；order_cnt->订单数
                   type: string
@@ -118,7 +115,7 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, agent_cnt: { description: 代理商数量, type: string }, order_cnt: { description: 订单数, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, tags: { description: 标签数组, type: array, items: { type: string } } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, agent_cnt: { description: 代理商数量, type: string }, order_cnt: { description: 订单数, type: string }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string } }, type: object } }
                 type: object
   /api/store/axGetAgents:
     post:
@@ -145,7 +142,7 @@ paths:
                   description: 微信号
                   type: string
                 employer:
-                  description: 单位
+                  description: 单位/代理所属
                   type: string
                 chater_name:
                   description: 业务员
@@ -173,7 +170,7 @@ paths:
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   chaterOptions: { description: 业务员筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, delivery_type: { description: 配送方式：kuaidi->快递，self->自取, type: string }, deliveryType: { description: 配送方式：kuaidi->快递，self->自取, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, tags: { description: 标签数组, type: array, items: { type: string } } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, wechat: { description: 微信号, type: integer }, wechat_pic: { description: 微信图片, type: string }, wechatPic: { description: 微信图片-展示用, type: string }, employer: { description: 单位/代理所属, type: integer }, seller_cnt: { description: 关联销售员数量, type: string }, order_cnt: { description: 订单数, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string } }, type: object } }
                 type: object
   /api/pmp/axSearchSeller:
     post:
