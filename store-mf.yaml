@@ -915,7 +915,7 @@ paths:
               schema:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
-                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                  results: { description: 操作结构数组, type: array, items: { type: string } }
                 type: object
   /api/store/axExportPaymentData:
     post:
