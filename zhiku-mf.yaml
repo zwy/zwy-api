@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: 智库-中台-API
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'https://xx.mr-gut.cn'
+    description: 测试域名
+  -
+    url: 'https://www.mr-gut.cn'
+    description: 正式域名
+paths:
+  /api/zhiku/axGetRecomArticles:
+    post:
+      tags:
+        - 专家自荐文章
+      summary: '3.1 获取智库专家上传的文章列表'
+      description: 不分页
+      operationId: axGetRecomArticles
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                audit_status:
+                  description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过
+                  type: string
+                post_status:
+                  description: 发表状态：accepted->已接受；online->已上线;
+                  type: string
+                pubtime:
+                  description: 发布时间
+                  type: string
+                periodical:
+                  description: 期刊名称
+                  type: string
+                summary:
+                  description: 简要概括
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  waitingCnt: { description: 待审核数量, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  postStatusOptions: { description: 发表状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  auditStatusOptions: { description: 审核状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, zhikuName: { description: 智库姓名, type: string }, userName: { description: 用户姓名, type: string }, zhiku_id: { description: 智库ID, type: string }, user_id: { description: 用户ID, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string }, summary: { description: 简要概括, type: string }, pubtime: { description: 发布时间, type: string }, periodical: { description: 期刊名称, type: string }, post_status: { description: 发表状态：accepted->已接受；online->已上线;, type: string }, postStatusStr: { description: 发表状态：accepted->已接受；online->已上线;, type: string }, audit_status: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string }, auditStatusStr: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string } }, type: object } }
+                type: object
+
+components:
+  schemas:
+    OptionItem:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptionItem'
+        -
+          properties:
+            value:
+              description: 值
+              type: string
+            label:
+              description: Label
+              type: string
+          type: object
+    SearchSelectOptions:
+      description: 列表搜索select筛选项
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchSelectOptions'
+        -
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionItem'
+    SearchParams:
+      description: 列表搜索参数
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchParams'
+        -
+          properties:
+            more:
+              description: 更多参见搜索项
+              type: string
+          type: object
+          example:
+            more: 更多参见搜索项
+    PageParams:
+      description: 分页数据
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/PageParams'
+        -
+          properties:
+            page:
+              description: 页码
+              type: integer
+            limit:
+              description: 页码
+              type: integer
+            count:
+              description: 总数
+              type: integer
+          type: object
+          example:
+            page: 1
+            limit: 20
+            count: '100'
