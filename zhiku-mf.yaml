@@ -54,6 +54,82 @@ paths:
                   auditStatusOptions: { description: 审核状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, zhikuName: { description: 智库姓名, type: string }, userName: { description: 用户姓名, type: string }, zhiku_id: { description: 智库ID, type: string }, user_id: { description: 用户ID, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string }, summary: { description: 简要概括, type: string }, pubtime: { description: 发布时间, type: string }, periodical: { description: 期刊名称, type: string }, post_status: { description: 发表状态：accepted->已接受；online->已上线;, type: string }, postStatusStr: { description: 发表状态：accepted->已接受；online->已上线;, type: string }, audit_status: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string }, auditStatusStr: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string } }, type: object } }
                 type: object
+  /api/zhiku/axGetRecomPersons:
+    post:
+      tags:
+        - 推荐加入智库
+      summary: '4.1 获取推荐专家加入智库列表数据'
+      description: 不分页
+      operationId: axGetRecomPersons
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                audit_status:
+                  description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过
+                  type: string
+                name:
+                  description: 姓名
+                  type: string
+                organization_name:
+                  description: 机构名称
+                  type: string
+                phone:
+                  description: 手机
+                  type: string
+                email:
+                  description: 邮箱
+                  type: string
+                wechat:
+                  description: 微信号
+                  type: string
+                research:
+                  description: 科研领域与方向
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  auditStatusOptions: { description: 审核状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 智库姓名, type: string }, userName: { description: 姓名, type: string }, user_id: { description: 用户ID, type: string }, files: { description: 列表数组, type: array, items: { properties: { fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string } }, type: object } }, organization_name: { description: 机构名称, type: string }, phone: { description: 手机, type: string }, email: { description: 邮箱, type: string }, wechat: { description: 微信号, type: string }, research: { description: 科研领域与方向, type: string }, audit_status: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string }, auditStatusStr: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string } }, type: object } }
+                type: object
+  /api/zhiku/axSetRecomPersonsAuditStatus:
+    get:
+      tags:
+        - 推荐加入智库
+      summary: '4.2 设置推荐专家 审核通过/审核不通过'
+      operationId: axDeleteMember
+      parameters:
+        -
+          name: recom_id
+          in: query
+          description: 数据ID
+          required: true
+          schema:
+            type: integer
+        -
+          name: audit_status
+          in: query
+          description: 审核状态：pass->审核通过；fail->审核未通过
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
 
 components:
   schemas:
