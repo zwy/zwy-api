@@ -14,9 +14,9 @@ paths:
   /api/zhiku/axGetRecomArticles:
     post:
       tags:
-        - 专家自荐文章
+        - 专家文章管理
       summary: '3.1 获取智库专家上传的文章列表'
-      description: 不分页
+      description: ''
       operationId: axGetRecomArticles
       parameters: []
       requestBody:
@@ -53,6 +53,28 @@ paths:
                   postStatusOptions: { description: 发表状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   auditStatusOptions: { description: 审核状态筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, zhikuName: { description: 智库姓名, type: string }, userName: { description: 用户姓名, type: string }, zhiku_id: { description: 智库ID, type: string }, user_id: { description: 用户ID, type: string }, fileName: { description: 文件名称, type: string }, fileOss: { description: 文件-PC端用, type: string }, fileFull: { description: 文件-移动端端用, type: string }, summary: { description: 简要概括, type: string }, pubtime: { description: 发布时间, type: string }, periodical: { description: 期刊名称, type: string }, post_status: { description: 发表状态：accepted->已接受；online->已上线;, type: string }, postStatusStr: { description: 发表状态：accepted->已接受；online->已上线;, type: string }, audit_status: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string }, auditStatusStr: { description: 审核状态：waiting->待审核；pass->审核通过；fail->审核未通过, type: string } }, type: object } }
+                type: object
+  /api/zhiku/axSetArticleFeatured:
+    get:
+      tags:
+        - 专家文章管理
+      summary: '3.2 设置代表性文章 是否优先展示'
+      operationId: axSetArticleFeatured
+      parameters:
+        -
+          name: article_id
+          in: query
+          description: 数据ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
                 type: object
   /api/zhiku/axGetRecomPersons:
     post:
@@ -106,7 +128,7 @@ paths:
       tags:
         - 推荐加入智库
       summary: '4.2 设置推荐专家 审核通过/审核不通过'
-      operationId: axDeleteMember
+      operationId: axSetRecomPersonsAuditStatus
       parameters:
         -
           name: recom_id
