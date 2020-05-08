@@ -80,7 +80,7 @@ paths:
     get:
       tags:
         - 专家文章管理
-      summary: '3.3 代表性文章 审核不通过'
+      summary: '3.3 智库专家上传的文章 审核不通过'
       operationId: axSetArticleaAuditFail
       parameters:
         -
@@ -102,7 +102,7 @@ paths:
     get:
       tags:
         - 专家文章管理
-      summary: '3.4 代表性文章 审核通过'
+      summary: '3.4 智库专家上传的文章 审核通过'
       description: '1、仅生成代表性文章时，不传参数fragment；2、设置素材的时候，可以先调用 /api/editors/axGetUploadFragmentInfo 获取弹窗所需相关数据； '
       operationId: axSetArticleaAuditPass
       requestBody:
