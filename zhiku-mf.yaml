@@ -76,6 +76,57 @@ paths:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
                 type: object
+  /api/zhiku/axSetArticleaAuditFail:
+    get:
+      tags:
+        - 专家文章管理
+      summary: '3.3 代表性文章 审核不通过'
+      operationId: axSetArticleaAuditFail
+      parameters:
+        -
+          name: article_id
+          in: query
+          description: 数据ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/zhiku/axSetArticleaAuditPass:
+    get:
+      tags:
+        - 专家文章管理
+      summary: '3.4 代表性文章 审核通过'
+      operationId: axSetArticleaAuditPass
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                article_id:
+                  description: 数据ID
+                  type: integer
+                create_dkp:
+                  description: 生成日报：0->不生成；1->生成;
+                  type: integer
+                '':
+                  description: ''
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
   /api/zhiku/axGetRecomPersons:
     post:
       tags:
