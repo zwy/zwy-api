@@ -215,7 +215,7 @@ paths:
     post:
       tags:
         - 推荐加入智库
-      summary: '2.3 推荐专家加入智库'
+      summary: '4.1 推荐专家加入智库'
       operationId: axPubRecomPerson
       parameters: []
       requestBody:
@@ -256,6 +256,54 @@ paths:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
                   id: { description: 数据ID, type: integer, example: '1' }
+                type: object
+  /api/zhikuf/axGetZhikuArticles:
+    post:
+      tags:
+        - 代表性文章
+      summary: '3.1 获取智库专家代表性文章列表'
+      description: 不分页
+      operationId: axGetZhikuArticles
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                zhiku_id:
+                  description: 智库ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, title: { description: 标题, type: string }, is_featured: { description: 是不是精选文章：0->不是；1->是, type: string } }, type: object } }
+                type: object
+  /api/zhikuf/axSetArticleFeatured:
+    get:
+      tags:
+        - 代表性文章
+      summary: '3.2 设置代表性文章 是否优先展示'
+      operationId: axSetArticleFeatured
+      parameters:
+        -
+          name: article_id
+          in: query
+          description: 数据ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
                 type: object
 
 components:
