@@ -103,21 +103,23 @@ paths:
       tags:
         - 专家文章管理
       summary: '3.4 代表性文章 审核通过'
+      description: '1、仅生成代表性文章时，不传参数fragment；2、设置素材的时候，可以先调用 /api/editors/axGetUploadFragmentInfo 获取弹窗所需相关数据； '
       operationId: axSetArticleaAuditPass
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               properties:
                 article_id:
                   description: 数据ID
                   type: integer
-                create_dkp:
-                  description: 生成日报：0->不生成；1->生成;
+                fragment:
+                  description: 素材
+                  properties: { title: { description: 标题, type: string }, journal_columns: { description: 主题, type: array, items: { type: string } }, label: { description: 其他标记, type: string }, time_label: { description: 预发布时间, type: string }, priority_label: { description: 优先级, type: string }, content_reading: { description: 内容解读, type: string } }
+                  type: object
+                in_daily:
+                  description: 是否要加入日报：0->不加入；1->加入
                   type: integer
-                '':
-                  description: ''
-                  type: string
               type: object
       responses:
         '200':
