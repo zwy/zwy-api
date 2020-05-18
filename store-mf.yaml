@@ -273,10 +273,6 @@ paths:
                 order_id:
                   description: 订单ID
                   type: integer
-                product_code:
-                  description: 商品编码数组
-                  type: array
-                  items: { type: string }
               type: object
       responses:
         '200':
@@ -820,7 +816,7 @@ paths:
                 - way
               properties:
                 way:
-                  description: 商品类型：normal->普通商品；continuous->检测袋商品；
+                  description: 商品类型：normal->单一编码；continuous->多编码连续；list->多编码无序；
                   type: string
                 product_name:
                   description: 商品名称
@@ -837,6 +833,10 @@ paths:
                 end_code:
                   description: 截止编码，商品类型=continuous，必填，其他不填
                   type: string
+                product_codes:
+                  description: 商品类型=list，必填，其他不填，商品编码数组
+                  type: array
+                  items: { type: string }
                 remark:
                   description: 备注信息
                   type: string
