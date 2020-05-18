@@ -256,6 +256,37 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   codemsg: { description: 返回信息, type: string, example: 成功 }
                 type: object
+  /api/store/axEditOrderProductCode:
+    post:
+      tags:
+        - 订单管理
+      summary: '3.4.2 修改订单商品编码信息'
+      operationId: axEditOrderProductCode
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - order_id
+              properties:
+                order_id:
+                  description: 订单ID
+                  type: integer
+                product_code:
+                  description: 商品编码数组
+                  type: array
+                  items: { type: string }
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  codemsg: { description: 返回信息, type: string, example: 成功 }
+                type: object
   /api/store/axGetOrderDetail:
     post:
       tags:
@@ -340,7 +371,7 @@ paths:
                   pageParams: { $ref: '#/components/schemas/PageParams' }
                   deliveryTypeOptions: { description: 配送方式筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
                   settleTypeOptions: { description: 结算类型筛选项, $ref: '#/components/schemas/SearchSelectOptions' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, employer: { description: 单位, type: integer }, order_cnt: { description: 订单数, type: string }, delivery_type: { description: 配送方式：kuaidi->快递，self->自取, type: string }, deliveryType: { description: 配送方式：kuaidi->快递，self->自取, type: string }, parent_id: { description: 客服-ID, type: string }, parent_name: { description: 客服-姓名, type: string }, parent_wechat: { description: 客服-微信号, type: string }, agent_id: { description: 代理商-ID, type: string }, agent_name: { description: 代理商-姓名, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, tags: { description: 标签数组, type: array, items: { type: string } }, default_settle_type: { description: 结算类型：percent->比例；fixed->固定金额；, type: string }, default_settle_value: { description: 通用商品结算比例/通用商品结算金额（两位小数）, type: string }, settles: { description: 特殊商品结算数组, type: array, items: { properties: { product_id: { description: 商品ID, type: integer }, product_name: { description: 商品名称, type: string }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object } } }, type: object } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, employer: { description: 单位, type: integer }, order_cnt: { description: 订单数, type: string }, delivery_type: { description: 配送方式：kuaidi->快递，self->自取, type: string }, deliveryType: { description: 配送方式：kuaidi->快递，self->自取, type: string }, parent_id: { description: 客服-ID, type: string }, parent_name: { description: 客服-姓名, type: string }, parent_wechat: { description: 客服-微信号, type: string }, parent_phone: { description: 客服-手机号, type: string }, agent_id: { description: 代理商-ID, type: string }, agent_name: { description: 代理商-姓名, type: string }, chater_id: { description: 业务员-ID, type: string }, chater_name: { description: 业务员-姓名, type: string }, tags: { description: 标签数组, type: array, items: { type: string } }, default_settle_type: { description: 结算类型：percent->比例；fixed->固定金额；, type: string }, default_settle_value: { description: 通用商品结算比例/通用商品结算金额（两位小数）, type: string }, settles: { description: 特殊商品结算数组, type: array, items: { properties: { product_id: { description: 商品ID, type: integer }, product_name: { description: 商品名称, type: string }, value: { description: 结算比例/结算金额（两位小数）, type: string } }, type: object } } }, type: object } }
                 type: object
   /api/store/axEditSeller:
     post:
@@ -756,6 +787,9 @@ paths:
                   description: 售出时间，日期
                   type: string
                   example: '2020-01-01'
+                remark:
+                  description: 备注
+                  type: string
               type: object
       responses:
         '200':
@@ -831,7 +865,7 @@ paths:
                 - way
               properties:
                 way:
-                  description: 商品类型：normal->普通商品；continuous->检测袋商品；
+                  description: 商品类型：normal->单一编码；continuous->多编码连续；list->多编码无序；
                   type: string
                 product_code:
                   description: 商品编码，商品类型=normal，必填，其他不填
@@ -845,6 +879,10 @@ paths:
                 end_code:
                   description: 截止编码，商品类型=continuous，必填，其他不填
                   type: string
+                product_codes:
+                  description: 商品类型=list，必填，其他不填，商品编码数组
+                  type: array
+                  items: { type: string }
                 seller_id:
                   description: 销售员ID，使用axSearchSeller搜索名称获取
                   type: integer
