@@ -269,10 +269,15 @@ paths:
             schema:
               required:
                 - order_id
+                - product_code
               properties:
                 order_id:
                   description: 订单ID
                   type: integer
+                product_code:
+                  description: 商品编码数组
+                  type: array
+                  items: { type: string }
               type: object
       responses:
         '200':
