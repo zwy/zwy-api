@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: 搜索-前台-API
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'https://xx.mr-gut.cn'
+    description: 测试域名
+  -
+    url: 'https://www.mr-gut.cn'
+    description: 正式域名
+paths:
+  /api/search/axGetSuggest:
+    get:
+      tags:
+        - 搜索
+      summary: '1.1 搜索时，获取下拉推荐词'
+      operationId: axGetSuggest
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                term:
+                  description: Term
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, suggestions: { description: 搜索建议列表, type: array, items: { type: string } } }, type: object } }
+                type: object
+  /api/search/axSearchPoint:
+    get:
+      tags:
+        - 搜索
+      summary: '1.2 获取热门词和搜索历史'
+      operationId: axSearchPoint
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, historyList: { description: 搜索历史, $ref: '#/components/schemas/SearchSelectOptions' }, hotwordList: { description: 热门词列表, $ref: '#/components/schemas/SearchSelectOptions' } }, type: object } }
+                type: object
+
+components:
+  schemas:
+    OptionItem:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptionItem'
+        -
+          properties:
+            value:
+              description: 值
+              type: string
+            label:
+              description: Label
+              type: string
+          type: object
+    SearchSelectOptions:
+      description: 列表搜索select筛选项
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchSelectOptions'
+        -
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionItem'
+    SearchParams:
+      description: 列表搜索参数
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchParams'
+        -
+          properties:
+            more:
+              description: 更多参见搜索项
+              type: string
+          type: object
+          example:
+            more: 更多参见搜索项
+    PageParams:
+      description: 分页数据
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/PageParams'
+        -
+          properties:
+            page:
+              description: 页码
+              type: integer
+            limit:
+              description: 页码
+              type: integer
+            count:
+              description: 总数
+              type: integer
+          type: object
+          example:
+            page: 1
+            limit: 20
+            count: '100'
