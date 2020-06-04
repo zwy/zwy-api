@@ -34,7 +34,7 @@ paths:
               schema:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, suggestions: { description: 搜索建议列表, type: array, items: { type: string } } }, type: object } }
+                  suggestions: { description: 搜索建议列表, type: array, items: { type: string } }
                 type: object
   /api/search/axSearchPoint:
     get:
@@ -50,7 +50,8 @@ paths:
               schema:
                 properties:
                   rt: { description: 返回值, type: integer, example: '1' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, historyList: { description: 搜索历史, $ref: '#/components/schemas/SearchSelectOptions' }, hotwordList: { description: 热门词列表, $ref: '#/components/schemas/SearchSelectOptions' } }, type: object } }
+                  historyList: { description: 搜索历史, $ref: '#/components/schemas/SearchSelectOptions' }
+                  hotwordList: { description: 热门词列表, $ref: '#/components/schemas/SearchSelectOptions' }
                 type: object
 
 components:
