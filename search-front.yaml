@@ -53,6 +53,84 @@ paths:
                   historyList: { description: 搜索历史, $ref: '#/components/schemas/SearchSelectOptions' }
                   hotwordList: { description: 热门词列表, $ref: '#/components/schemas/SearchSelectOptions' }
                 type: object
+  /api/search/axSimpleSearch:
+    get:
+      tags:
+        - 搜索
+      summary: '2.1 通用搜索'
+      operationId: axSimpleSearch
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                q:
+                  description: 输入框搜索内容【输入框】
+                  type: string
+                title:
+                  description: 标题【高级】
+                  type: string
+                doi:
+                  description: DOI【高级】
+                  type: string
+                periodical:
+                  description: 发表期刊【高级｜筛选】
+                  type: string
+                ifs:
+                  description: 影响因子：最小【高级】
+                  type: string
+                ife:
+                  description: 影响因子：最大【高级】
+                  type: string
+                ys:
+                  description: 发表时间：开始【高级】
+                  type: string
+                ye:
+                  description: 发表时间：截止【高级】
+                  type: string
+                author:
+                  description: 作者名称【高级｜筛选】
+                  type: string
+                author_country:
+                  description: 作者国家【高级｜筛选】
+                  type: string
+                author_district:
+                  description: 地区【筛选】
+                  type: string
+                author_school:
+                  description: 机构【筛选】
+                  type: string
+                keywords:
+                  description: 关键词【高级｜筛选】
+                  type: string
+                type:
+                  description: 类型【筛选】
+                  type: string
+                year:
+                  description: 发表时间【筛选】
+                  type: string
+                impact_factor:
+                  description: 影响因子【筛选】
+                  type: string
+                limit:
+                  description: 每页展示条数，默认20条【分页】
+                  type: string
+                page:
+                  description: 分页的第几页，默认为1【分页】
+                  type: string
+                sort:
+                  description: '排序方式：''''=>相关性排序；if=>影响因子；time=>发表时间【排序】'
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
 
 components:
   schemas:
