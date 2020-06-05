@@ -53,6 +53,13 @@ paths:
                   historyList: { description: 搜索历史, $ref: '#/components/schemas/SearchSelectOptions' }
                   hotwordList: { description: 热门词列表, $ref: '#/components/schemas/SearchSelectOptions' }
                 type: object
+  /api/search/axClearSearchHistory:
+    get:
+      tags:
+        - 搜索
+      summary: '1.3 清除搜索历史'
+      operationId: axClearSearchHistory
+      parameters: []
   /api/search/axSimpleSearch:
     get:
       tags:
