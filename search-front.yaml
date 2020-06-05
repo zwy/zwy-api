@@ -65,6 +65,9 @@ paths:
           multipart/form-data:
             schema:
               properties:
+                md:
+                  description: 模块：all->全部；p->日报；z->智库；a->官网文章；
+                  type: string
                 q:
                   description: 输入框搜索内容【输入框】
                   type: string
