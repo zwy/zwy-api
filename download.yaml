@@ -1,0 +1,298 @@
+openapi: 3.0.0
+info:
+  title: '下载-前台&中台-API'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'https://xx.mr-gut.cn'
+    description: 测试域名
+  -
+    url: 'https://www.mr-gut.cn'
+    description: 正式域名
+paths:
+  /api/download/axGetFileDetail:
+    get:
+      tags:
+        - 前台
+      summary: '1.1 获取一条下载数据详情'
+      operationId: axGetFileDetail
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                id:
+                  description: 数据ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/download/axDownload:
+    post:
+      tags:
+        - 前台
+      summary: 发送下载文件下载申请
+      description: ''
+      operationId: axDownload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  description: 文件不同版本的数据ID
+                  type: integer
+                email:
+                  description: 邮箱
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/download/axGetFiles:
+    post:
+      tags:
+        - 中台
+      summary: 获取下载文件列表数据
+      description: ''
+      operationId: axGetFiles
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                is_show:
+                  description: 是否前台展示
+                  type: string
+                title:
+                  description: 标题
+                  type: string
+                summary:
+                  description: 简介
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  params: { $ref: '#/components/schemas/SearchParams' }
+                  pageParams: { $ref: '#/components/schemas/PageParams' }
+                  allShows: { description: 全部展示状态, $ref: '#/components/schemas/SearchSelectOptions' }
+                  allIdentitys: { description: 全部权限：上传文件时用, $ref: '#/components/schemas/SearchSelectOptions' }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, title: { description: 标题, type: string }, summary: { description: 简介, type: string }, read_cnt: { description: 阅读数, type: string }, is_show: { description: 是否前台展示, type: string }, created: { description: 创建时间, type: string }, defaultUrl: { description: 前台URL, type: string }, versions: { description: 文件数组, type: array, items: { properties: { id: { description: 文件ID, type: string }, file_size: { description: 文件名称, type: string }, file_format: { description: 文件格式, type: string }, fileFormatStr: { description: 文件格式Str, type: string }, identity: { description: 权限, type: string }, identityStr: { description: 权限Str, type: string }, file_path: { description: 文件路径, type: string }, filePathOss: { description: 文件路径-OSS, type: string }, filePathFull: { description: 文件路径-我们服务器, type: string } }, type: object } } }, type: object } }
+                type: object
+  /api/download/axEditFile:
+    post:
+      tags:
+        - 中台
+      summary: 新增/修改文件
+      description: ''
+      operationId: axEditFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  description: 数据ID，新增时不传或传0
+                  type: integer
+                title:
+                  description: 标题
+                  type: string
+                summary:
+                  description: 简介
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  id: { description: 数据ID, type: integer, example: '1' }
+                type: object
+  /api/download/axEditFileVersion:
+    post:
+      tags:
+        - 中台
+      summary: 新增/修改文件下的不同版本文件
+      description: ''
+      operationId: axEditFileVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  description: 数据ID，新增时不传或传0
+                  type: integer
+                file_id:
+                  description: 文件ID
+                  type: integer
+                file_path:
+                  description: 文件
+                  type: string
+                identity:
+                  description: 权限
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                  id: { description: 数据ID, type: integer, example: '1' }
+                type: object
+  /api/download/axDeleteFile:
+    post:
+      tags:
+        - 中台
+      summary: 删除文件
+      description: ''
+      operationId: axDeleteFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  description: 数据ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/download/axDeleteFileVersion:
+    post:
+      tags:
+        - 中台
+      summary: 删除文件下的不同版本文件数据
+      description: ''
+      operationId: axDeleteFileVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  description: 数据ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+  /api/download/axSwitchFileIsShow:
+    post:
+      tags:
+        - 中台
+      summary: 切换文件是否前台展示的状态
+      description: ''
+      operationId: axSwitchFileIsShow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  description: 数据ID
+                  type: integer
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer, example: '1' }
+                type: object
+
+components:
+  schemas:
+    OptionItem:
+      allOf:
+        -
+          $ref: '#/components/schemas/OptionItem'
+        -
+          properties:
+            value:
+              description: 值
+              type: string
+            label:
+              description: Label
+              type: string
+          type: object
+    SearchSelectOptions:
+      description: 列表搜索select筛选项
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchSelectOptions'
+        -
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionItem'
+    SearchParams:
+      description: 列表搜索参数
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/SearchParams'
+        -
+          properties:
+            more:
+              description: 更多参见搜索项
+              type: string
+          type: object
+          example:
+            more: 更多参见搜索项
+    PageParams:
+      description: 分页数据
+      type: object
+      allOf:
+        -
+          $ref: '#/components/schemas/PageParams'
+        -
+          properties:
+            page:
+              description: 页码
+              type: integer
+            limit:
+              description: 页码
+              type: integer
+            count:
+              description: 总数
+              type: integer
+          type: object
+          example:
+            page: 1
+            limit: 20
+            count: '100'
