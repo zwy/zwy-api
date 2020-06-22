@@ -91,11 +91,10 @@ paths:
               schema:
                 properties:
                   rt: { description: 返回值, type: integer }
-                  userinfo: { description: 用户信息, properties: { nickname: { description: 昵称, type: string }, name: { description: 姓名, type: string }, avatar: { description: 头像, type: string } }, type: object }
+                  userinfo: { description: 用户信息, properties: { nickname: { description: 昵称, type: string }, name: { description: 姓名, type: string }, avatar: { description: 头像, type: string }, level: { description: 等级, type: integer } }, type: object }
+                  loginJournal: { description: 登录频道, properties: { id: { description: 频道ID, type: string }, name: { description: 频道名称, type: string } }, type: object }
+                  journals: { description: 频道数组, type: array, items: { properties: { id: { description: 频道ID, type: integer }, name: { description: 频道名称, type: string } }, type: object } }
                 type: object
-                example:
-                  rt: '1'
-                  userinfo: { nickname: 昵称, name: 姓名, avatar: 'http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM616nNZsFCicB1ibWNrT11X6oZNtnBiboAo1rd6wQOFQIuOkvoOjPRlKBFKSPWhT632nNXjOBAehPdJQ/132' }
   /api/pmp/axSearchUsers:
     post:
       tags:
@@ -149,6 +148,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OptionItem'
+  /api/pmp/axSetLoginJournal:
+    post:
+      tags:
+        - 基础
+      summary: '1.6 设置用户选择的频道信息'
+      operationId: axSetLoginJournal
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - id
+              properties:
+                id:
+                  description: 频道ID
+                  type: string
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  rt: { description: 返回值, type: integer }
+                  loginJournal: { description: 登录频道, properties: { id: { description: 频道ID, type: string }, name: { description: 频道名称, type: string } }, type: object }
+                type: object
   /api/pmp/axGetDailies:
     post:
       tags:
@@ -355,7 +381,7 @@ paths:
                   rt: { description: 返回值, type: integer, example: '1' }
                   params: { $ref: '#/components/schemas/SearchParams' }
                   pageParams: { $ref: '#/components/schemas/PageParams' }
-                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, email: { description: 邮箱, type: integer }, org_name: { description: 机构名称, type: string } }, type: object, example: { id: 1, user_id: 1, name: 刘晓婷, phone: '17310568207', org_name: 上药信谊, email: 610330674@qq.com } } }
+                  items: { description: 列表数组, type: array, items: { properties: { id: { description: ID, type: integer }, user_id: { description: 用户ID, type: integer }, userName: { description: 用户名, type: integer }, name: { description: 姓名, type: string }, phone: { description: 手机号, type: string }, email: { description: 邮箱, type: integer }, org_name: { description: 机构名称, type: string } }, type: object, example: { id: 1, user_id: 1, userName: 刘晓婷, name: 刘晓婷, phone: '17310568207', org_name: 上药信谊, email: 610330674@qq.com } } }
                 type: object
   /api/pmp/axEditMember:
     post:
